@@ -1,0 +1,15 @@
+{
+  "name": "AlexBot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "SkribblWords.js",
+  "scripts": {
+    "start": "node SkribblWords.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.5.0",
+    "node-fetch": "^2.6.1"
+  }
+}
