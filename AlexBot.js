@@ -14,6 +14,7 @@ client.on("message", function (message) {
     //logging every message
     let saveData = { createdAt: message.createdAt, user: message.author.username, content: message.content, guild: message.guild.name, channel: message.channel.name }
     let path = "./resources/history/";
+    if(!fs.existsSync("./resources/history/")) fs.mkdirSync("./resources/history/");
     if(!fs.existsSync(path + message.guild.id)) fs.mkdirSync(path + message.guild.id);
     fs.appendFileSync(path + message.guild.id + "/" + message.channel.id + ".dat", JSON.stringify(saveData) + "\n");
 
