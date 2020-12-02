@@ -100,7 +100,6 @@ module.exports = [
         remember: { recording: false, channelId: null, filePath: null },
         command: (message, client, args, remember, falseTriggered) => {
             let fs = require("fs");
-
             //Start recording
             if (!remember.recording && !falseTriggered) {
                 remember.channelId = message.channel.id;
@@ -118,7 +117,7 @@ module.exports = [
             }
             //Stop recording
             if (remember.recording && !falseTriggered) {
-                message.guild.channels.cache.get(remember.channelId).send("Stopped recording Words!\n" + fs.readFileSync(remember.filePath) + "\n Play at https://skribbl.io/");
+                message.guild.channels.cache.get(remember.channelId).send("Stopped recording Words!\n" + (fs.existsSync(remember.filePath) ? fs.readFileSync(remember.filePath) : "No Words were recorded.") + "\n Play at https://skribbl.io/");
                 console.log("stopped Recording Words!");
                 remember.recording = !remember.recording;
                 return;

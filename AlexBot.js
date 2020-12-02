@@ -33,7 +33,6 @@ client.on("message", function (message) {
             return;
         } else if(item.alwaysTrigger && !message.content.startsWith(prefix)) {
             item.command(message, client, args, item.remember, true);
-            return;
         }
     }
     if(message.content.startsWith(prefix)) {
