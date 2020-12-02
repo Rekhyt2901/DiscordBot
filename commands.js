@@ -9,20 +9,38 @@ command structure:
         command function parameters: client Object, message Object, command arguments, remembered data, whether it was called without a prefix 
 
 */
-const Discord = require("discord.js");
-let MessageEmbed = Discord.MessageEmbed;
 module.exports = [
     {
         name: "help",
         aliases: ["h", "?"],
         alwaysTrigger: false,
         command: (message, client, args) => {
-            let embed = new MessageEmbed()
-            .setTitle("AlexBot Commands:")
-            .setColor(0x001144)
-            .setDescription();
-            
-            message.channel.send(embed);
+
+            const embed = {
+                "title": "Bot Befehle:",
+                "description": "Um mehr über einen Befehl zu erfahren:\n/help [Befehl]",
+                "url": "",
+                "color": 6744043,
+                "fields": [
+                    {
+                        "name": "/help",
+                        "value": "Zeigt diese Nachricht an."
+                    },
+                    {
+                        "name": "/faq",
+                        "value": "beeinhaltet die Logik für den Chatbot."
+                    },
+                    {
+                        "name": "/staatsoberhaupt",
+                        "value": "Zeigt ein zufälliges Staatsoberhaupt an."
+                    },
+                    {
+                        "name": "/skribbl",
+                        "value": "Fängt an oder hört auf Wörter für Skribbl.io aufzunehmen."
+                    }
+                ]
+            };
+            message.channel.send({ embed: embed });
         }
     },
     {
@@ -30,13 +48,15 @@ module.exports = [
         aliases: [],
         alwaysTrigger: true,
         command: (message, client, args, remember, falseTriggered) => {
-            let FAQ = require("./resources/FAQ.js").FAQ;
-            for (item of FAQ) {
-                if (message.content.toLowerCase() === item.question.toLowerCase() || message.content.toLowerCase() === item.question.toLowerCase() + "?" || message.content.toLowerCase() === item.question.toLowerCase() + "!" || message.content.toLowerCase() === item.question.toLowerCase() + ".") {
-                    if(item.answer instanceof Function) {
-                        message.reply(item.answer());
-                    } else {
-                        message.reply(item.answer);
+            if (falseTriggered) {
+                let FAQ = require("./resources/FAQ.js").FAQ;
+                for (item of FAQ) {
+                    if (message.content.toLowerCase() === item.question.toLowerCase() || message.content.toLowerCase() === item.question.toLowerCase() + "?" || message.content.toLowerCase() === item.question.toLowerCase() + "!" || message.content.toLowerCase() === item.question.toLowerCase() + ".") {
+                        if (item.answer instanceof Function) {
+                            message.reply(item.answer());
+                        } else {
+                            message.reply(item.answer);
+                        }
                     }
                 }
             }
@@ -70,7 +90,7 @@ module.exports = [
     
             let Land = staatsoberhäupter[first].list;
             let Staatsoberhaupt = staatsoberhäupter[first].names[second]; */
-            message.reply("Das " + (nameIndex + 1)+ ". " + "Staatsoberhaupt von " + Land + " war " + Staatsoberhaupt + ".\n" + Link);
+            message.reply("Das " + (nameIndex + 1) + ". " + "Staatsoberhaupt von " + Land + " war " + Staatsoberhaupt + ".\n" + Link);
         }
     },
     {
@@ -84,7 +104,7 @@ module.exports = [
             //Start recording
             if (!remember.recording && !falseTriggered) {
                 remember.channelId = message.channel.id;
-                if(!fs.existsSync("./resources/skribbl")) fs.mkdir("./resources/skribbl");
+                if (!fs.existsSync("./resources/skribbl")) fs.mkdir("./resources/skribbl");
                 remember.filePath = "./resources/skribbl/" + message.createdAt.toISOString().replace(/:|\./g, "-") + ".dat";
                 console.log("Started Recording Words!");
                 message.guild.channels.cache.get(remember.channelId).send("Started Recording Words!");
@@ -98,10 +118,10 @@ module.exports = [
             }
             //Stop recording
             if (remember.recording && !falseTriggered) {
-                    message.guild.channels.cache.get(remember.channelId).send("Stopped recording Words!\n" + fs.readFileSync(remember.filePath));
-                    console.log("stopped Recording Words!");
-                    remember.recording = !remember.recording;
-                    return;
+                message.guild.channels.cache.get(remember.channelId).send("Stopped recording Words!\n" + fs.readFileSync(remember.filePath) + "\n Play at https://skribbl.io/");
+                console.log("stopped Recording Words!");
+                remember.recording = !remember.recording;
+                return;
             }
             //Write down word
             if (remember.recording && falseTriggered) {
