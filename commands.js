@@ -129,5 +129,31 @@ module.exports = [
                 return;
             }
         }
+    },
+    {
+        name: "randomimage",
+        aliases: ["ri", "img", "randomimg", "image"],
+        alwaysTrigger: false,
+        command: async (message, client, args, remember, falseTriggered) => {
+            const fetch = require("node-fetch");
+            let data;
+            if(args.length === 0) {
+                data = await fetch("https://picsum.photos/200/300");
+            } else if(args.length === 1) {
+                data = await fetch("https://picsum.photos/" + args[0]);
+            } else {
+                data = await fetch("https://picsum.photos/" + args[0] + "/" + args[1]);
+            }
+            console.log("sent picture: " + data.url)
+            const embed = {
+                "title": "Dein random Bild:",
+                "url": data.url,
+                "color": 6744043,
+                image: {
+                    url: data.url,
+                },
+            };
+            message.channel.send({embed: embed});
+        }
     }
 ]

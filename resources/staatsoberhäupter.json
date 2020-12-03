@@ -63,6 +63,22 @@
         {
             "list": "England/Großbritannien",
             "names": ["Egbert","Æthelwulf","Æthelbald","Æthelberht","Æthelred","Alfred der Große","Eduard der Ältere","Æthelweard","Æthelstan","Edmund der Prächtige","Eadred","Eadwig","Edgar der Friedfertige","Eduard der Märtyrer","Æthelred der Unberatene","Sven Gabelbart","Æthelred der Unberatene","Edmund Eisenseite","Knut der Große","Harald I. Hasenfuß","Hardiknut","Eduard der Bekenner","Harald II.","Edgar Ætheling","Wilhelm I. der Eroberer","Wilhelm II. Rufus","Heinrich I. Beauclerc","Stephan","Matilda die Kaiserin","Stephan","Heinrich II. Kurzmantel","Heinrich der Jüngere","Richard I. Löwenherz","Johann Ohneland","Ludwig der Löwe","Heinrich III.","Eduard I.","Eduard II.","Eduard III.","Richard II.","Heinrich IV.","Heinrich V.","Heinrich VI.","Eduard IV.","Heinrich VI.","Eduard IV.","Eduard V.","Richard III.","Heinrich VII.","Heinrich VIII.","Eduard VI.","Jane","Maria I.","Philipp","Elisabeth I.","Jakob I.","Karl I.","Oliver Cromwell","Richard Cromwell","Karl II.","Jakob II.","Maria II.","Wilhelm III.","Anne","Georg I.","Georg II.","Georg III.","Georg IV.","Wilhelm IV.","Victoria","Eduard VII.","Georg V.","Eduard VIII.","Georg VI.","Elisabeth II."]
+        },
+        {
+            "list": "Tuvalu",
+            "names": ["Fiatao Penitala Teo", "Tupua Leupena", "Toaripi Lauti", "Tomu Sione", "Tulaga Manuella", "Tomasi Puapua", "Faimalaga Luka", "Filoimea Telito", "Kamuta Latasi", "Iakoba Taeia Italeli"]
+        },
+        {
+            "list": "Marschalla",
+            "names": ["Amata Kabua","Kunio Lemari","Imata Kabua","Kessai Note","Litokwa Tomeing","Ruben Zackhras","Jurelang Zedkaia","Christopher Loeak","Casten Nemra","Hilda Heine","David Kabua"]
+        },
+        {
+            "list": "Nord Korea",
+            "names": ["Kim Il-sung","Kim Jong-il","Kim Jong-kun"]
+        },
+        {
+            "list": "dem Zazland",
+            "names": ["Alex Kleyn","Laurenz Schulz","nicht Niko, der keck wurde nie gewählt"]
         }
     ]
 }
