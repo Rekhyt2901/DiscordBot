@@ -103,7 +103,7 @@ module.exports = [
             //Start recording
             if (!remember.recording && !falseTriggered) {
                 remember.channelId = message.channel.id;
-                if (!fs.existsSync("./resources/skribbl")) fs.mkdir("./resources/skribbl");
+                if (!fs.existsSync("./resources/skribbl")) fs.mkdirSync("./resources/skribbl");
                 remember.filePath = "./resources/skribbl/" + message.createdAt.toISOString().replace(/:|\./g, "-") + ".dat";
                 console.log("Started Recording Words!");
                 message.guild.channels.cache.get(remember.channelId).send("Started Recording Words!");
@@ -111,7 +111,7 @@ module.exports = [
                 return;
             }
             //Return if not from same channel
-            if (message.channel.id !== remember.channelId) {
+            if (message.channel.id !== remember.channelId && remember.recording) {
                 console.log("Message from wrong Channel!");
                 return;
             }
