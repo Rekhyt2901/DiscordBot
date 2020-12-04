@@ -95,7 +95,7 @@ module.exports = [
                         }
                     ]
                 }
-                if(index = null) {
+                if(index === null) {
                     embed = {
                         "title": "Diesen Befehl gibt es nicht.",
                         "description": "Vertippt?",
