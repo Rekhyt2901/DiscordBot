@@ -47,17 +47,17 @@ module.exports = [
             } else {
                 let index;
                 if (String(args[0]).match(/(help|h|\?)/)) {
-                    index = 1;
+                    index = 0;
                 } else if (String(args[0]).match(/(faq)/)) {
-                    index = 2;
+                    index = 1;
                 } else if (String(args[0]).match(/(staatsoberhaupt|so)/)) {
-                    index = 3;
+                    index = 2;
                 } else if (String(args[0]).match(/(skribbl)/)) {
-                    index = 4;
+                    index = 3;
                 } else if (String(args[0]).match(/(randomimage|ri|img|randomimg|image)/)) {
                     index = 4;
                 } else {
-                    index = 0;
+                    index = null;
                 }
                 const descriptionArray = [
                     "Zeigt alle möglichen Befehle an. Kann auch nähere Informationen zu einem bestimmten Befehl geben.",
@@ -94,6 +94,13 @@ module.exports = [
                             "value": argumentArray[index]
                         }
                     ]
+                }
+                if(index = null) {
+                    embed = {
+                        "title": "Diesen Befehl gibt es nicht.",
+                        "description": "Vertippt?",
+                        "color": 6744043,
+                    }
                 }
             }
             message.channel.send({ embed: embed });
