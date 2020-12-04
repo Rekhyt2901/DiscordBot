@@ -15,31 +15,87 @@ module.exports = [
         aliases: ["h", "?"],
         alwaysTrigger: false,
         command: (message, client, args) => {
-
-            const embed = {
-                "title": "Bot Befehle:",
-                "description": "Um mehr über einen Befehl zu erfahren:\n/help [Befehl]",
-                "url": "",
-                "color": 6744043,
-                "fields": [
-                    {
-                        "name": "/help",
-                        "value": "Zeigt diese Nachricht an."
-                    },
-                    {
-                        "name": "/faq",
-                        "value": "beeinhaltet die Logik für den Chatbot."
-                    },
-                    {
-                        "name": "/staatsoberhaupt",
-                        "value": "Zeigt ein zufälliges Staatsoberhaupt an."
-                    },
-                    {
-                        "name": "/skribbl",
-                        "value": "Fängt an oder hört auf Wörter für Skribbl.io aufzunehmen."
-                    }
-                ]
-            };
+            const embed;
+            if (args.length === 0) {
+                embed = {
+                    "title": "Bot Befehle:",
+                    "description": "Um mehr über einen Befehl zu erfahren:\n/help [Befehl]",
+                    "color": 6744043,
+                    "fields": [
+                        {
+                            "name": "/help",
+                            "value": "Zeigt diese Nachricht an."
+                        },
+                        {
+                            "name": "/faq",
+                            "value": "beeinhaltet die Logik für den Chatbot."
+                        },
+                        {
+                            "name": "/staatsoberhaupt",
+                            "value": "Zeigt ein zufälliges Staatsoberhaupt an."
+                        },
+                        {
+                            "name": "/skribbl",
+                            "value": "Fängt an oder hört auf Wörter für Skribbl.io aufzunehmen."
+                        },
+                        {
+                            "name": "/randomimage",
+                            "value": "Zeigt ein zufälliges Bild aus dem Internet an."
+                        }
+                    ]
+                };
+            } else {
+                let index;
+                if (String(args[0]).match(/(help|h|\?)/)) {
+                    index = 1;
+                } else if (String(args[0]).match(/(faq)/)) {
+                    index = 2;
+                } else if (String(args[0]).match(/(staatsoberhaupt|so)/)) {
+                    index = 3;
+                } else if (String(args[0]).match(/(skribbl)/)) {
+                    index = 4;
+                } else if (String(args[0]).match(/(randomimage|ri|img|randomimg|image)/)) {
+                    index = 4;
+                } else {
+                    index = 0;
+                }
+                const descriptionArray = [
+                    "Zeigt alle möglichen Befehle an. Kann auch nähere Informationen zu einem bestimmten Befehl geben.",
+                    "Ist nur der hintergrund Befehl für den Chatbot, der auf fragen antwortet, der Befehl an sich hat keine Funktion.",
+                    "Gibt ein zufälliges Staatsoberhaupt aus einer Liste von über 1000 Oberhäuptern wieder, die hauptsächlich von Fabio und Laurenz erstellt wurde. Verlinkt auch den Wikipedia Artikel.",
+                    "/skribbl startet die Wortaufnahme. In diesem Channel kann nun jeder Wörter schreiben die dann in die Liste aufgenommen werden. Nochmal /skribbl beendet die Aufnahme und gibt die richtig formattierte Liste der Wörter wieder.",
+                    "Zeigt ein zufälliges Bild an. Standardauflösung ist 1280x720. Mit Zahlen hinter dem Befehl kann die Auflösung geändert werden."
+                ];
+                const aliasArray = [
+                    "/h, /?",
+                    "Keine.",
+                    "/so",
+                    "Keine.",
+                    "/ri, /img, /randomimg, /image"
+                ];
+                const argumentArray = [
+                    "Optional: Ein Befehl über den man nähere Infos möchte.",
+                    "Keine.",
+                    "Keine.",
+                    "Keine.",
+                    "Optional: 1. Zahl Breite des Bildes 2. Zahl Höhe des bildes. Wenn nur eine angegeben wird ist das Bild quadratisch."
+                ];
+                embed = {
+                    "title": "Bot Befehle: /" + args[0],
+                    "description": descriptionArray[index],
+                    "color": 6744043,
+                    "fields": [
+                        {
+                            "name": "Aliase:",
+                            "value": aliasArray[index]
+                        },
+                        {
+                            "name": "Argumente:",
+                            "value": argumentArray[index]
+                        }
+                    ]
+                }
+            }
             message.channel.send({ embed: embed });
         }
     },
@@ -117,7 +173,7 @@ module.exports = [
             }
             //Stop recording
             if (remember.recording && !falseTriggered) {
-                message.guild.channels.cache.get(remember.channelId).send("Stopped recording Words!\n" + (fs.existsSync(remember.filePath) ? fs.readFileSync(remember.filePath) : "No Words were recorded.") + "\n Play at https://skribbl.io/");
+                message.guild.channels.cache.get(remember.channelId).send("Stopped recording Words!\n" + (fs.existsSync(remember.filePath) ? fs.readFileSync(remember.filePath) : "No Words were recorded.") + "\nPlay at https://skribbl.io/");
                 console.log("stopped Recording Words!");
                 remember.recording = !remember.recording;
                 return;
@@ -137,12 +193,12 @@ module.exports = [
         command: async (message, client, args, remember, falseTriggered) => {
             const fetch = require("node-fetch");
             let data;
-            if(args.length === 0) {
-                data = await fetch("https://picsum.photos/200/300");
-            } else if(args.length === 1) {
+            if (!Number.isNan(args[0]) && !Number.isNan(args[1])) {
+                data = await fetch("https://picsum.photos/" + args[0] + "/" + args[1]);
+            } else if (!Number.isNan(args[0])) {
                 data = await fetch("https://picsum.photos/" + args[0]);
             } else {
-                data = await fetch("https://picsum.photos/" + args[0] + "/" + args[1]);
+                data = await fetch("https://picsum.photos/200/300");
             }
             console.log("sent picture: " + data.url)
             const embed = {
@@ -153,7 +209,7 @@ module.exports = [
                     url: data.url,
                 },
             };
-            message.channel.send({embed: embed});
+            message.channel.send({ embed: embed });
         }
     }
 ]
