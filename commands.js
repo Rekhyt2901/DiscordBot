@@ -15,7 +15,7 @@ module.exports = [
         aliases: ["h", "?"],
         alwaysTrigger: false,
         command: (message, client, args) => {
-            const embed;
+            let embed;
             if (args.length === 0) {
                 embed = {
                     "title": "Bot Befehle:",
