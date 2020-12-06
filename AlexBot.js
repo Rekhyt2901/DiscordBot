@@ -16,7 +16,7 @@ client.on("message", function (message) {
     let path = "./resources/history/";
     if(!fs.existsSync("./resources/history/")) fs.mkdirSync("./resources/history/");
     if(!fs.existsSync(path + message.guild.id)) fs.mkdirSync(path + message.guild.id);
-    fs.appendFileSync(path + message.guild.id + "/" + message.channel.id + ".dat", JSON.stringify(saveData) + "\n");
+    fs.appendFileSync(path + message.guild.id + "/" + message.channel.id + ".json", JSON.stringify(saveData) + "\n");
 
     //building prefix, command and args
     const prefix = config.prefix;
@@ -25,7 +25,7 @@ client.on("message", function (message) {
     const command = args.shift().toLowerCase();
 
     //checking and executing every command
-    let commands = require("./commands.js");
+    let commands = require("./resources/commands.js");
     for(item of commands) {
         if((item.name === command || item.aliases.includes(command)) && message.content.startsWith(prefix)) {
             //Parameters: client Object, message Object, command arguments, data with state, whether it was triggered without a prefix

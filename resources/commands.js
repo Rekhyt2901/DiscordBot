@@ -74,7 +74,7 @@ module.exports = [
                     "/ri, /img, /randomimg, /image"
                 ];
                 const argumentArray = [
-                    "Optional: Ein Befehl über den man nähere Infos möchte.",
+                    "Optional: Name des Befehls über den man nähere Informationen möchte.",
                     "Keine.",
                     "Keine.",
                     "Keine.",
