@@ -112,7 +112,7 @@ module.exports = [
         alwaysTrigger: true,
         command: (message, client, args, remember, falseTriggered) => {
             if (falseTriggered) {
-                let FAQ = require("./resources/FAQ.js").FAQ;
+                let FAQ = require("./FAQ.js").FAQ;
                 for (item of FAQ) {
                     if (message.content.toLowerCase() === item.question.toLowerCase() || message.content.toLowerCase() === item.question.toLowerCase() + "?" || message.content.toLowerCase() === item.question.toLowerCase() + "!" || message.content.toLowerCase() === item.question.toLowerCase() + ".") {
                         if (item.answer instanceof Function) {
@@ -130,7 +130,7 @@ module.exports = [
         aliases: ["so"],
         alwaysTrigger: false,
         command: (message, client, args, remember, falseTriggered) => {
-            let staatsoberhäupter = require("./resources/staatsoberhäupter.json").staatsoberhäupter;
+            let staatsoberhäupter = require("./staatsoberhäupter.json").staatsoberhäupter;
 
             let numberOfNames = 0;
             for (i = 0; i < staatsoberhäupter.length; i++) {
@@ -166,8 +166,8 @@ module.exports = [
             //Start recording
             if (!remember.recording && !falseTriggered) {
                 remember.channelId = message.channel.id;
-                if (!fs.existsSync("./resources/skribbl")) fs.mkdirSync("./resources/skribbl");
-                remember.filePath = "./resources/skribbl/" + message.createdAt.toISOString().replace(/:|\./g, "-") + ".dat";
+                if (!fs.existsSync("./skribbl")) fs.mkdirSync("./skribbl");
+                remember.filePath = "./skribbl/" + message.createdAt.toISOString().replace(/:|\./g, "-") + ".dat";
                 console.log("Started Recording Words!");
                 message.guild.channels.cache.get(remember.channelId).send("Started Recording Words!");
                 remember.recording = !remember.recording;
