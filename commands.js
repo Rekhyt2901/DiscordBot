@@ -200,9 +200,9 @@ module.exports = [
         command: async (message, client, args, remember, falseTriggered) => {
             const fetch = require("node-fetch");
             let data;
-            if (!Number.isNan(args[0]) && !Number.isNan(args[1])) {
+            if (!isNaN(args[0]) && !isNaN(args[1])) {
                 data = await fetch("https://picsum.photos/" + args[0] + "/" + args[1]);
-            } else if (!Number.isNan(args[0])) {
+            } else if (!isNaN(args[0])) {
                 data = await fetch("https://picsum.photos/" + args[0]);
             } else {
                 data = await fetch("https://picsum.photos/200/300");
