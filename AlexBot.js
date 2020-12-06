@@ -29,10 +29,10 @@ client.on("message", function (message) {
     for(item of commands) {
         if((item.name === command || item.aliases.includes(command)) && message.content.startsWith(prefix)) {
             //Parameters: client Object, message Object, command arguments, data with state, whether it was triggered without a prefix
-            item.command(message, client, args, item.remember, false);
+            item.command(message, client, args, item.remember, false, message.content.startsWith(prefix));
             return;
-        } else if(item.alwaysTrigger && !message.content.startsWith(prefix)) {
-            item.command(message, client, args, item.remember, true);
+        } else if(item.alwaysTrigger) {
+            item.command(message, client, args, item.remember, true, message.content.startsWith(prefix));
         }
     }
     if(message.content.startsWith(prefix)) {
