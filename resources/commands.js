@@ -226,6 +226,8 @@ module.exports = [
             let Land = staatsoberhäupter[first].list;
             let Staatsoberhaupt = staatsoberhäupter[first].names[second]; */
             let points = Math.floor(((staatsoberhäupter[listIndex].names.length - nameIndex) / staatsoberhäupter[listIndex].names.length) * 100);
+            if(Staatsoberhaupt.match(/(Adolf Hitler|Angela Merkel|Vladimir Putin|Franziskus|Wladimir Lenin|Josef Stalin|Elisabeth II\.|Kim Jong-Un|Alex Kleyn|Laurenz Schulz|nicht Niko, der keck wurde nie gewählt)/)) points = 150;
+
             message.reply("Das " + (nameIndex + 1) + ". " + "Staatsoberhaupt von " + Land + " war " + Staatsoberhaupt + ".\n Du hast " + points + " Punkte bekommen!" + "\n" + Link);
 
             setUserData(message, "levelPoints", getUserData(message, "levelPoints") + points);
