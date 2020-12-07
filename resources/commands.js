@@ -174,13 +174,13 @@ module.exports = [
         name: "faq",
         aliases: [],
         alwaysTrigger: true,
-        command: (message, client, args, remember, falseTriggered, startsWithPrefix) => {
+        command: async (message, client, args, remember, falseTriggered, startsWithPrefix) => {
             if (falseTriggered && !startsWithPrefix) {
                 let FAQ = require("./FAQ.js").FAQ;
                 for (item of FAQ) {
                     if (message.content.toLowerCase() === item.question.toLowerCase() || message.content.toLowerCase() === item.question.toLowerCase() + "?" || message.content.toLowerCase() === item.question.toLowerCase() + "!" || message.content.toLowerCase() === item.question.toLowerCase() + ".") {
                         if (item.answer instanceof Function) {
-                            message.reply(item.answer());
+                            message.reply(await item.answer());
                         } else {
                             message.reply(item.answer);
                         }
