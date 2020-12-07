@@ -45,7 +45,10 @@ module.exports = {
             question: "Wie ist das Wetter",
             answer: async () => {
                 try {
-                    let data = await fetch("http://api.openweathermap.org/data/2.5/weather?q=Dortmund,de&appid=5cd2a6f9b92eafedabcabead6723474d&units=metric&lang=de");
+                    let key = require("./../config.json").weatherToken;
+                    let path = "http://api.openweathermap.org/data/2.5/weather?q=Dortmund,de&appid=" + key + "&units=metric&lang=de";
+                    console.log(path);
+                    let data = await fetch(path);
                     data = await data.json();
                     let answer = data.weather[0].description + ".\nEs sind " + Math.round(data.main.temp) + "°C. Es fühlt sich an wie " + Math.round(data.main.feels_like) + "°C. Die Luftfeuchtigkeit liegt bei " + data.main.humidity + "%. Die Windgeschwindigkeit beträgt " + Math.round(data.wind.speed * 3.6) + "km/h.";
                     return answer;
