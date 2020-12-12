@@ -73,10 +73,6 @@ module.exports = [
                             "value": "Zeigt diese Nachricht an."
                         },
                         {
-                            "name": "/faq",
-                            "value": "Beeinhaltet die Logik für den Chatbot."
-                        },
-                        {
                             "name": "/staatsoberhaupt",
                             "value": "Zeigt ein zufälliges Staatsoberhaupt an."
                         },
@@ -89,8 +85,8 @@ module.exports = [
                             "value": "Zeigt ein zufälliges Bild aus dem Internet an."
                         },
                         {
-                            "name": "/userData",
-                            "value": "Beeinhaltet die Logik für das Speichern der Daten der User."
+                            "name": "/profile",
+                            "value": "Gibt die eigenen Daten wieder."
                         }
                     ]
                 };
@@ -99,26 +95,23 @@ module.exports = [
                 let arg = String(args[0]).toLowerCase();
                 if (String(arg.match(/(help|h|\?)/))) {
                     index = 0;
-                } else if (arg.match(/(faq)/)) {
-                    index = 1;
-                } else if (arg.match(/(staatsoberhaupt|so)/)) {
+                }  else if (arg.match(/(staatsoberhaupt|so)/)) {
                     index = 2;
                 } else if (arg.match(/(skribbl)/)) {
                     index = 3;
                 } else if (arg.match(/(randomimage|ri|img|randomimg|image)/)) {
                     index = 4;
-                } else if (arg.match(/(userData)/)) {
+                } else if (arg.match(/(profile|p)/)) {
                     index = 5;
                 } else {
                     index = null;
                 }
                 const titleArray = [
                     "/help",
-                    "/faq",
                     "/staatsoberhaupt",
                     "/skribbl",
                     "/randomImage",
-                    "/userData"
+                    "/profile"
                 ];
                 const descriptionArray = [
                     "Zeigt alle möglichen Befehle an. Kann auch nähere Informationen zu einem bestimmten Befehl geben.",
@@ -126,15 +119,15 @@ module.exports = [
                     "Gibt ein zufälliges Staatsoberhaupt aus einer Liste von über 1000 Oberhäuptern wieder, die hauptsächlich von Fabio und Laurenz erstellt wurde. Verlinkt auch den Wikipedia Artikel.",
                     "/skribbl startet die Wortaufnahme. In diesem Channel kann nun jeder Wörter schreiben die dann in die Liste aufgenommen werden. Nochmal /skribbl beendet die Aufnahme und gibt die richtig formattierte Liste der Wörter wieder.",
                     "Zeigt ein zufälliges Bild an. Standardauflösung ist 1280x720. Mit Zahlen hinter dem Befehl kann die Auflösung geändert werden.",
-                    "Ist nur der hintergrund Befehl für das Speichern der Daten der einzelnen User, der Befehl an sich hat keine Funktion."
+                    "Zeigt die Punkte, das Beitrittsdatum, das Erstelldatum, den Tag und den Server Nickname des Users an."
                 ];
                 const aliasArray = [
-                    "/h, /?",
-                    "Keine.",
-                    "/so",
-                    "Keine.",
-                    "/ri, /img, /randomimg, /image",
-                    "Keine"
+                    "/help, /h, /?",
+                    "Keine",
+                    "/staatsoberhaupt, /so",
+                    "/skribbl",
+                    "/randomimage, /ri, /img, /randomimg, /image",
+                    "/profile, /p"
                 ];
                 const argumentArray = [
                     "Optional: Name des Befehls über den man nähere Informationen möchte.",
