@@ -215,13 +215,13 @@ module.exports = [
 
             /* let first = Math.floor(Math.random() * staatsoberhäupter.length);
             let second = Math.floor(Math.random() * staatsoberhäupter[first].names.length);
-    
             let Land = staatsoberhäupter[first].list;
             let Staatsoberhaupt = staatsoberhäupter[first].names[second]; */
+
             let points = Math.floor(((staatsoberhäupter[listIndex].names.length - nameIndex) / staatsoberhäupter[listIndex].names.length) * 100);
-            if(Staatsoberhaupt.match(/(Adolf Hitler|Angela Merkel|Vladimir Putin|Franziskus|Wladimir Lenin|Josef Stalin|Elisabeth II\.|Kim Jong-Un)/)) points = 150;
-            if(Staatsoberhaupt.match(/(Alex Kleyn|Laurenz Schulz|Aaraes der Bomber)/)) points = 200;
-            if(Staatsoberhaupt.match(/(nicht Niko, der keck wurde nie gewählt)/)) points = -100;
+            if(Staatsoberhaupt.match(/(Adolf Hitler|Angela Merkel|Vladimir Putin|Franziskus|Wladimir Lenin|Josef Stalin|Elisabeth II\.|Kim Jong-Un|Barack Obama)/)) points = 150;
+            if(Staatsoberhaupt.match(/(Alex Kleyn|Laurenz Schulz|Aaraes der Bomber|wer diesen zieht kriegt eine Cola)/)) points = 200;
+            if(Staatsoberhaupt.match(/(nicht Niko, der keck wurde nie gewählt|Donald Trump)/)) points = -100;
             message.reply("Das " + (nameIndex + 1) + ". " + "Staatsoberhaupt von " + Land + " war " + Staatsoberhaupt + ".\n Du hast " + points + " Punkte bekommen!" + "\n" + Link);
 
             setUserData(message, "levelPoints", getUserData(message, "levelPoints") + points);
@@ -325,5 +325,5 @@ module.exports = [
             };
             message.reply({ embed: embed });
         }
-    },
+    }
 ];
