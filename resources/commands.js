@@ -50,7 +50,8 @@ module.exports = [
                     id: message.author.id,
                     tag: message.author.tag,
                     levelPoints: 0,
-                    lastUsedStaatsoberhaupt: 0
+                    lastUsedStaatsoberhaupt: 0,
+                    lastUsedSuperStaatsoberhaupt: 0,
                 }
                 fs.writeFileSync(filePath, JSON.stringify(data));
             }
@@ -222,10 +223,57 @@ module.exports = [
             if(Staatsoberhaupt.match(/(Adolf Hitler|Angela Merkel|Vladimir Putin|Franziskus|Wladimir Lenin|Josef Stalin|Elisabeth II\.|Kim Jong-Un|Barack Obama)/)) points = 150;
             if(Staatsoberhaupt.match(/(Alex Kleyn|Laurenz Schulz|Aaraes der Bomber|wer diesen zieht kriegt eine Cola)/)) points = 200;
             if(Staatsoberhaupt.match(/(nicht Niko, der keck wurde nie gewählt|Donald Trump)/)) points = -100;
-            message.reply("Das " + (nameIndex + 1) + ". " + "Staatsoberhaupt von " + Land + " war " + Staatsoberhaupt + ".\n Du hast " + points + " Punkte bekommen!" + "\n" + Link);
+            message.reply("Das " + (nameIndex + 1) + ". " + "Staatsoberhaupt von " + Land + " war " + Staatsoberhaupt + (Staatsoberhaupt.endsWith("." ? "" : ".")) + "\n Du hast " + points + " Punkte bekommen!" + "\n" + Link);
 
             setUserData(message, "levelPoints", getUserData(message, "levelPoints") + points);
             setUserData(message, "lastUsedStaatsoberhaupt", now);
+        }
+    },
+    {
+        name: "superstaatsoberhaupt",
+        aliases: ["sso", "superso"],
+        alwaysTrigger: false,
+        command: (message) => {
+            let staatsoberhäupter = require("./staatsoberhäupter.json").staatsoberhäupter;
+            let lastUsedSuper = getUserData(message, "lastUsedSuperStaatsoberhaupt");
+            let dayNow = Math.floor(Date.now() / 86400);
+            if(dayNow - lastUsedSuper <= 0) {
+                message.reply("Du hast heute schon Super Staatsoberhaupt benutzt. Komm morgen wieder!");
+                return;
+            }
+
+            let numberOfNames = 0;
+            for (i = 0; i < staatsoberhäupter.length; i++) {
+                numberOfNames += staatsoberhäupter[i].names.length;
+            }
+            let nameIndex = Math.floor(Math.random() * numberOfNames);
+
+            let listIndex = 0;
+            while (nameIndex > staatsoberhäupter[listIndex].names.length - 1) {
+                nameIndex -= staatsoberhäupter[listIndex].names.length;
+                listIndex++;
+            }
+
+            let Land = staatsoberhäupter[listIndex].list;
+            let Staatsoberhaupt = staatsoberhäupter[listIndex].names[nameIndex];
+            let Link = "https://de.wikipedia.org/wiki/" + Staatsoberhaupt.replace(/ /g, "_");
+
+            /* let first = Math.floor(Math.random() * staatsoberhäupter.length);
+            let second = Math.floor(Math.random() * staatsoberhäupter[first].names.length);
+            let Land = staatsoberhäupter[first].list;
+            let Staatsoberhaupt = staatsoberhäupter[first].names[second]; */
+
+            let points = Math.floor(((staatsoberhäupter[listIndex].names.length - nameIndex) / staatsoberhäupter[listIndex].names.length) * 100);
+            if(Staatsoberhaupt.match(/(Adolf Hitler|Angela Merkel|Vladimir Putin|Franziskus|Wladimir Lenin|Josef Stalin|Elisabeth II\.|Kim Jong-Un|Barack Obama)/)) points = 150;
+            if(Staatsoberhaupt.match(/(Alex Kleyn|Laurenz Schulz|Aaraes der Bomber|wer diesen zieht kriegt eine Cola)/)) points = 200;
+            if(Staatsoberhaupt.match(/(nicht Niko, der keck wurde nie gewählt|Donald Trump)/)) points = -100;
+
+            points *= 3;
+
+            message.reply("Super Staatsoberhaupt gibt dreifache Punkte!\nDas " + (nameIndex + 1) + ". " + "Staatsoberhaupt von " + Land + " war " + Staatsoberhaupt + (Staatsoberhaupt.endsWith("." ? "" : ".")) + "\n Du hast " + points + " Punkte bekommen!" + "\n" + Link);
+
+            setUserData(message, "levelPoints", getUserData(message, "levelPoints") + points);
+            setUserData(message, "lastUsedSuperStaatsoberhaupt", dayNow);
         }
     },
     {
