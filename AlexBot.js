@@ -7,9 +7,9 @@ client.on("ready", () => {
     console.log("I am ready!");
 });
 
-client.on("guildMemberAdd", (member) => {
+/* client.on("guildMemberAdd", (member) => {
     member.roles.add("777974125934936084");
-});
+}); */
 
 client.on("message", function (message) {
     if (message.author.bot || !message.guild) return;
