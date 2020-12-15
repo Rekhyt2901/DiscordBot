@@ -223,7 +223,7 @@ module.exports = [
             if(Staatsoberhaupt.match(/(Adolf Hitler|Angela Merkel|Vladimir Putin|Franziskus|Wladimir Lenin|Josef Stalin|Elisabeth II\.|Kim Jong-Un|Barack Obama)/)) points = 150;
             if(Staatsoberhaupt.match(/(Alex Kleyn|Laurenz Schulz|Aaraes der Bomber|wer diesen zieht kriegt eine Cola)/)) points = 200;
             if(Staatsoberhaupt.match(/(nicht Niko, der keck wurde nie gewählt|Donald Trump)/)) points = -100;
-            message.reply("Das " + (nameIndex + 1) + ". " + "Staatsoberhaupt von " + Land + " war " + Staatsoberhaupt + (Staatsoberhaupt.endsWith("." ? "" : ".")) + "\n Du hast " + points + " Punkte bekommen!" + "\n" + Link);
+            message.reply(`Das ${nameIndex + 1}. Staatsoberhaupt von ${Land} war ${Staatsoberhaupt}${Staatsoberhaupt.endsWith(".") ? "" : "."}\nDu hast ${points} Punkte bekommen!\n${Link}`);
 
             setUserData(message, "levelPoints", getUserData(message, "levelPoints") + points);
             setUserData(message, "lastUsedStaatsoberhaupt", now);
@@ -270,7 +270,7 @@ module.exports = [
 
             points *= 3;
 
-            message.reply("Super Staatsoberhaupt gibt dreifache Punkte!\nDas " + (nameIndex + 1) + ". " + "Staatsoberhaupt von " + Land + " war " + Staatsoberhaupt + (Staatsoberhaupt.endsWith("." ? "" : ".")) + "\n Du hast " + points + " Punkte bekommen!" + "\n" + Link);
+            message.reply(`Super Staatsoberhaupt gibt dreifache Punkte!\nDas ${nameIndex + 1}. Staatsoberhaupt von ${Land} war ${Staatsoberhaupt}${Staatsoberhaupt.endsWith(".") ? "" : "."}\nDu hast ${points} Punkte bekommen!\n${Link}`);
 
             setUserData(message, "levelPoints", getUserData(message, "levelPoints") + points);
             setUserData(message, "lastUsedSuperStaatsoberhaupt", dayNow);
