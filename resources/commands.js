@@ -24,7 +24,7 @@ function getUserData(message, key) {
     const fs = require("fs");
     let filePath = "./resources/userData/" + message.guild.id + "/" + message.author.id + ".json";
     let data = JSON.parse(fs.readFileSync(filePath));
-    return data[key]; 
+    return data[key];
 }
 
 function getAllUserData(message) {
@@ -96,7 +96,7 @@ module.exports = [
                 let arg = String(args[0]).toLowerCase();
                 if (String(arg.match(/(help|h|\?)/))) {
                     index = 0;
-                }  else if (arg.match(/(staatsoberhaupt|so)/)) {
+                } else if (arg.match(/(staatsoberhaupt|so)/)) {
                     index = 2;
                 } else if (arg.match(/(skribbl)/)) {
                     index = 3;
@@ -192,7 +192,7 @@ module.exports = [
             let lastUsed = getUserData(message, "lastUsedStaatsoberhaupt");
             let now = Date.now();
             let timeElapsed = now - lastUsed;
-            if(timeElapsed < 1800000) {
+            if (timeElapsed < 1800000) {
                 let timeToWait = Math.ceil((1800000 - timeElapsed) / 1000 / 60);
                 message.reply("Du kannst in " + timeToWait + " Minuten nochmal ziehen!");
                 return;
@@ -220,9 +220,9 @@ module.exports = [
             let Staatsoberhaupt = staatsoberhäupter[first].names[second]; */
 
             let points = Math.floor(((staatsoberhäupter[listIndex].names.length - nameIndex) / staatsoberhäupter[listIndex].names.length) * 100);
-            if(Staatsoberhaupt.match(/(Adolf Hitler|Angela Merkel|Vladimir Putin|Franziskus|Wladimir Lenin|Josef Stalin|Elisabeth II\.|Kim Jong-Un|Barack Obama)/)) points = 150;
-            if(Staatsoberhaupt.match(/(Alex Kleyn|Laurenz Schulz|Aaraes der Bomber|wer diesen zieht kriegt eine Cola)/)) points = 200;
-            if(Staatsoberhaupt.match(/(nicht Niko, der keck wurde nie gewählt|Donald Trump)/)) points = -100;
+            if (Staatsoberhaupt.match(/(Adolf Hitler|Angela Merkel|Vladimir Putin|Franziskus|Wladimir Lenin|Josef Stalin|Elisabeth II\.|Kim Jong-Un|Barack Obama)/)) points = 150;
+            if (Staatsoberhaupt.match(/(Alex Kleyn|Laurenz Schulz|Aaraes der Bomber|wer diesen zieht kriegt eine Cola)/)) points = 200;
+            if (Staatsoberhaupt.match(/(nicht Niko, der keck wurde nie gewählt|Donald Trump)/)) points = -100;
             message.reply(`Das ${nameIndex + 1}. Staatsoberhaupt von ${Land} war ${Staatsoberhaupt}${Staatsoberhaupt.endsWith(".") ? "" : "."}\nDu hast ${points} Punkte bekommen!\n${Link}`);
 
             setUserData(message, "levelPoints", getUserData(message, "levelPoints") + points);
@@ -237,7 +237,8 @@ module.exports = [
             let staatsoberhäupter = require("./staatsoberhäupter.json").staatsoberhäupter;
             let lastUsedSuper = getUserData(message, "lastUsedSuperStaatsoberhaupt");
             let dayNow = Math.floor((Date.now()) / 86400000);
-            if(dayNow - lastUsedSuper <= 0) {
+            if (dayNow - lastUsedSuper <= 0) {
+                console.log(dayNow, lastUsedSuper, dayNow - lastUsedSuper);
                 message.reply("Du hast heute schon Super Staatsoberhaupt benutzt. Komm morgen wieder!");
                 return;
             }
@@ -264,9 +265,9 @@ module.exports = [
             let Staatsoberhaupt = staatsoberhäupter[first].names[second]; */
 
             let points = Math.floor(((staatsoberhäupter[listIndex].names.length - nameIndex) / staatsoberhäupter[listIndex].names.length) * 100);
-            if(Staatsoberhaupt.match(/(Adolf Hitler|Angela Merkel|Vladimir Putin|Franziskus|Wladimir Lenin|Josef Stalin|Elisabeth II\.|Kim Jong-Un|Barack Obama)/)) points = 150;
-            if(Staatsoberhaupt.match(/(Alex Kleyn|Laurenz Schulz|Aaraes der Bomber|wer diesen zieht kriegt eine Cola)/)) points = 200;
-            if(Staatsoberhaupt.match(/(nicht Niko, der keck wurde nie gewählt|Donald Trump)/)) points = -100;
+            if (Staatsoberhaupt.match(/(Adolf Hitler|Angela Merkel|Vladimir Putin|Franziskus|Wladimir Lenin|Josef Stalin|Elisabeth II\.|Kim Jong-Un|Barack Obama)/)) points = 150;
+            if (Staatsoberhaupt.match(/(Alex Kleyn|Laurenz Schulz|Aaraes der Bomber|wer diesen zieht kriegt eine Cola)/)) points = 200;
+            if (Staatsoberhaupt.match(/(nicht Niko, der keck wurde nie gewählt|Donald Trump)/)) points = -100;
 
             points *= 3;
 
@@ -370,6 +371,39 @@ module.exports = [
                         "value": message.member.joinedAt.toLocaleDateString("de-DE", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
                     }
                 ]
+            };
+            message.reply({ embed: embed });
+        }
+    },
+    {
+        name: "ranking",
+        aliases: ["r"],
+        alwaysTrigger: false,
+        command: (message) => {
+            let fields = [];
+            const fs = require("fs");
+            let filePath = "./resources/userData/" + message.guild.id;
+            let files = fs.readdirSync(filePath);
+            for(file of files) {
+                let readFile = JSON.parse(fs.readFileSync(filePath + "/" + file));
+                fields.push({"name": readFile["tag"], "value": readFile["levelPoints"]});
+            }
+            let sortedFields = [];
+            for(i = 0; i < fields.length; i++) {
+                let highestPoints = 0;
+                for(j = 1; j < fields.length; j++) {
+                    if(fields[j].value > fields[highestPoints].value) highestPoints = j;
+                }
+
+                fields[highestPoints].name = (i+1) + ". " + fields[highestPoints].name;
+                sortedFields.push(fields[highestPoints]);
+                fields.splice(highestPoints, 1);
+            }
+
+            const embed = {
+                "title": "Punkte Ranking:",
+                "color": 6744043,
+                "fields": sortedFields
             };
             message.reply({ embed: embed });
         }
