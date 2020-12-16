@@ -88,6 +88,10 @@ module.exports = [
                         {
                             "name": "/profile",
                             "value": "Gibt die eigenen Daten wieder."
+                        },
+                        {
+                            "name": "/ranking",
+                            "value": "Zeigt das aktuelle Punkte Ranking an."
                         }
                     ]
                 };
@@ -104,6 +108,8 @@ module.exports = [
                     index = 4;
                 } else if (arg.match(/(profile|p)/)) {
                     index = 5;
+                } else if (arg.match(/(ranking|r)/)) {
+                    index = 6;
                 } else {
                     index = null;
                 }
@@ -112,7 +118,8 @@ module.exports = [
                     "/staatsoberhaupt",
                     "/skribbl",
                     "/randomImage",
-                    "/profile"
+                    "/profile",
+                    "/ranking"
                 ];
                 const descriptionArray = [
                     "Zeigt alle möglichen Befehle an. Kann auch nähere Informationen zu einem bestimmten Befehl geben.",
@@ -120,7 +127,8 @@ module.exports = [
                     "Gibt ein zufälliges Staatsoberhaupt aus einer Liste von über 1000 Oberhäuptern wieder, die hauptsächlich von Fabio und Laurenz erstellt wurde. Verlinkt auch den Wikipedia Artikel.",
                     "/skribbl startet die Wortaufnahme. In diesem Channel kann nun jeder Wörter schreiben die dann in die Liste aufgenommen werden. Nochmal /skribbl beendet die Aufnahme und gibt die richtig formattierte Liste der Wörter wieder.",
                     "Zeigt ein zufälliges Bild an. Standardauflösung ist 1280x720. Mit Zahlen hinter dem Befehl kann die Auflösung geändert werden.",
-                    "Zeigt die Punkte, das Beitrittsdatum, das Erstelldatum, den Tag und den Server Nickname des Users an."
+                    "Zeigt die Punkte, das Beitrittsdatum, das Erstelldatum, den Tag und den Server Nickname des Users an.",
+                    "Zeigt die akutellen Punkte von allen Mitgliedern mit mehr als 0 Punkten an."
                 ];
                 const aliasArray = [
                     "/help, /h, /?",
@@ -128,7 +136,8 @@ module.exports = [
                     "/staatsoberhaupt, /so",
                     "/skribbl",
                     "/randomimage, /ri, /img, /randomimg, /image",
-                    "/profile, /p"
+                    "/profile, /p",
+                    "/ranking, /r"
                 ];
                 const argumentArray = [
                     "Optional: Name des Befehls über den man nähere Informationen möchte.",
@@ -136,10 +145,11 @@ module.exports = [
                     "Keine.",
                     "Keine.",
                     "Optional: 1. Zahl Breite des Bildes 2. Zahl Höhe des bildes. Wenn nur eine angegeben wird ist das Bild quadratisch.",
-                    "Keine"
+                    "Keine",
+                    "Optional: Wenn erstes Argument 'tag' oder 't' ist, dann werden statt den Nicknames die Discord Tags angezeigt."
                 ];
                 embed = {
-                    "title": "Bot Befehle: " + titleArray[index],
+                    "title": "Bot Befehl: " + titleArray[index],
                     "description": descriptionArray[index],
                     "color": 6744043,
                     "fields": [
@@ -238,7 +248,6 @@ module.exports = [
             let lastUsedSuper = getUserData(message, "lastUsedSuperStaatsoberhaupt");
             let dayNow = Math.floor((Date.now()) / 86400000);
             if (dayNow - lastUsedSuper <= 0) {
-                console.log(dayNow, lastUsedSuper, dayNow - lastUsedSuper);
                 message.reply("Du hast heute schon Super Staatsoberhaupt benutzt. Komm morgen wieder!");
                 return;
             }
@@ -379,14 +388,16 @@ module.exports = [
         name: "ranking",
         aliases: ["r"],
         alwaysTrigger: false,
-        command: (message) => {
+        command: (message, client, args) => {
             let fields = [];
             const fs = require("fs");
             let filePath = "./resources/userData/" + message.guild.id;
             let files = fs.readdirSync(filePath);
             for(file of files) {
                 let readFile = JSON.parse(fs.readFileSync(filePath + "/" + file));
-                fields.push({"name": readFile["tag"], "value": readFile["levelPoints"]});
+                let nickname = message.guild.members.cache.get(readFile["id"]).nickname;
+                if(args[0] === "tags" || args[0] === "t") nickname = readFile["tag"];
+                if(readFile["levelPoints"] > 0) fields.push({"name": nickname, "value": readFile["levelPoints"]});
             }
             let sortedFields = [];
             for(i = 0; i < fields.length; i++) {
