@@ -49,10 +49,17 @@ module.exports = [
                 let data = {
                     id: message.author.id,
                     tag: message.author.tag,
+                    nickname: message.member.nickname,
                     levelPoints: 0,
                     lastUsedStaatsoberhaupt: 0,
                     lastUsedSuperStaatsoberhaupt: 0,
                 }
+                fs.writeFileSync(filePath, JSON.stringify(data));
+            } else {
+                let data = getAllUserData(message);
+                data.id = message.author.id;
+                data.tag = message.author.tag;
+                data.nickname = message.member.nickname;
                 fs.writeFileSync(filePath, JSON.stringify(data));
             }
         }
