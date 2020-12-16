@@ -254,7 +254,7 @@ module.exports = [
         command: (message) => {
             let staatsoberhäupter = require("./staatsoberhäupter.json").staatsoberhäupter;
             let lastUsedSuper = getUserData(message, "lastUsedSuperStaatsoberhaupt");
-            let dayNow = Math.floor((Date.now()) / 86400000);
+            let dayNow = Math.floor((Date.now() + 3600000) / 86400000);
             if (dayNow - lastUsedSuper <= 0) {
                 message.reply("Du hast heute schon Super Staatsoberhaupt benutzt. Komm morgen wieder!");
                 return;
