@@ -402,29 +402,14 @@ module.exports = [
             const fs = require("fs");
             let filePath = "./resources/userData/" + message.guild.id;
             let files = fs.readdirSync(filePath);
-            console.log("files:", files);
             for (file of files) {
                 let readFile = JSON.parse(fs.readFileSync(filePath + "/" + file));
                 let nickname = readFile["tag"];
                 fields.push({ "name": nickname, "value": readFile["levelPoints"] });
             }
-            console.log("fields:", fields);
 
-            /* let sortedFields = [];
-            for (i = 0; i < fields.length; i++) {
-                let highestPoints = 0;
-                for (j = 1; j < fields.length; j++) {
-                    if (fields[j].value > fields[highestPoints].value) highestPoints = j;
-                }
-
-                fields[highestPoints].name = (i + 1) + ". " + fields[highestPoints].name;
-                sortedFields.push(fields[highestPoints]);
-                fields.splice(highestPoints, 1);
-            } */
-
-
-            fields.sort((a, b) => a["value"] - b["value"]);
-            console.log("sorted:", fields);
+            fields.sort((a, b) => b["value"] - a["value"]);
+            for(i = 0; i < fields.length; i++) fields[i]["name"] = (i+1) + ". " + fields[i]["name"];
 
             const embed = {
                 "title": "Punkte Ranking:",
