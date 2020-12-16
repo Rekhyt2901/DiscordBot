@@ -400,11 +400,13 @@ module.exports = [
             const fs = require("fs");
             let filePath = "./resources/userData/" + message.guild.id;
             let files = fs.readdirSync(filePath);
+            console.log("files:", files);
             for(file of files) {
                 let readFile = JSON.parse(fs.readFileSync(filePath + "/" + file));
                 let nickname = readFile["tag"];
-                if(readFile["levelPoints"] > 0) fields.push({"name": nickname, "value": readFile["levelPoints"]});
+                fields.push({"name": nickname, "value": readFile["levelPoints"]});
             }
+            console.log("fields:", fields);
             let sortedFields = [];
             for(i = 0; i < fields.length; i++) {
                 let highestPoints = 0;
@@ -416,6 +418,7 @@ module.exports = [
                 sortedFields.push(fields[highestPoints]);
                 fields.splice(highestPoints, 1);
             }
+            console.log("sorted:", sortedFields);
 
             const embed = {
                 "title": "Punkte Ranking:",

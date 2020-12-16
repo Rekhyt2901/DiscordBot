@@ -4,8 +4,9 @@ To get the bot running:
 
 2. add config.json file to root:
 {
-    "token": "yourDiscordBotToken",
-    "prefix": "/"
+    "token": "your Discord Bot Token",
+    "prefix": "/",
+    "weatherToken": "your open weather map token"	
 }
 
 3. don't forget to run npm install
