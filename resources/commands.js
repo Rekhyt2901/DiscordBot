@@ -239,6 +239,7 @@ module.exports = [
             let points = Math.floor(((staatsoberhäupter[listIndex].names.length - nameIndex) / staatsoberhäupter[listIndex].names.length) * 100);
             if (Staatsoberhaupt.match(/(Adolf Hitler|Angela Merkel|Vladimir Putin|Franziskus|Wladimir Lenin|Josef Stalin|Elisabeth II\.|Kim Jong-Un|Barack Obama)/)) points = 150;
             if (Staatsoberhaupt.match(/(Alex Kleyn|Laurenz Schulz|Aaraes der Bomber|wer diesen zieht kriegt eine Cola)/)) points = 200;
+            if (Staatsoberhaupt.match(/(Laurenz Schulz)/)) points = 450;
             if (Staatsoberhaupt.match(/(nicht Niko, der keck wurde nie gewählt|Donald Trump)/)) points = -100;
             message.reply(`Das ${nameIndex + 1}. Staatsoberhaupt von ${Land} war ${Staatsoberhaupt}${Staatsoberhaupt.endsWith(".") ? "" : "."}\nDu hast ${points} Punkte bekommen!\n${Link}`);
 
@@ -283,6 +284,7 @@ module.exports = [
             let points = Math.floor(((staatsoberhäupter[listIndex].names.length - nameIndex) / staatsoberhäupter[listIndex].names.length) * 100);
             if (Staatsoberhaupt.match(/(Adolf Hitler|Angela Merkel|Vladimir Putin|Franziskus|Wladimir Lenin|Josef Stalin|Elisabeth II\.|Kim Jong-Un|Barack Obama)/)) points = 150;
             if (Staatsoberhaupt.match(/(Alex Kleyn|Laurenz Schulz|Aaraes der Bomber|wer diesen zieht kriegt eine Cola)/)) points = 200;
+            if (Staatsoberhaupt.match(/(Laurenz Schulz)/)) points = 450;
             if (Staatsoberhaupt.match(/(nicht Niko, der keck wurde nie gewählt|Donald Trump)/)) points = -100;
 
             points *= 3;
@@ -401,29 +403,33 @@ module.exports = [
             let filePath = "./resources/userData/" + message.guild.id;
             let files = fs.readdirSync(filePath);
             console.log("files:", files);
-            for(file of files) {
+            for (file of files) {
                 let readFile = JSON.parse(fs.readFileSync(filePath + "/" + file));
                 let nickname = readFile["tag"];
-                fields.push({"name": nickname, "value": readFile["levelPoints"]});
+                fields.push({ "name": nickname, "value": readFile["levelPoints"] });
             }
             console.log("fields:", fields);
-            let sortedFields = [];
-            for(i = 0; i < fields.length; i++) {
+
+            /* let sortedFields = [];
+            for (i = 0; i < fields.length; i++) {
                 let highestPoints = 0;
-                for(j = 1; j < fields.length; j++) {
-                    if(fields[j].value > fields[highestPoints].value) highestPoints = j;
+                for (j = 1; j < fields.length; j++) {
+                    if (fields[j].value > fields[highestPoints].value) highestPoints = j;
                 }
 
-                fields[highestPoints].name = (i+1) + ". " + fields[highestPoints].name;
+                fields[highestPoints].name = (i + 1) + ". " + fields[highestPoints].name;
                 sortedFields.push(fields[highestPoints]);
                 fields.splice(highestPoints, 1);
-            }
-            console.log("sorted:", sortedFields);
+            } */
+
+
+            fields.sort((a, b) => a["value"] - b["value"]);
+            console.log("sorted:", fields);
 
             const embed = {
                 "title": "Punkte Ranking:",
                 "color": 6744043,
-                "fields": sortedFields
+                "fields": fields
             };
             message.reply({ embed: embed });
         }
