@@ -146,7 +146,7 @@ module.exports = [
                     "Keine.",
                     "Optional: 1. Zahl Breite des Bildes 2. Zahl Höhe des bildes. Wenn nur eine angegeben wird ist das Bild quadratisch.",
                     "Keine",
-                    "Optional: Wenn erstes Argument 'tag' oder 't' ist, dann werden statt den Nicknames die Discord Tags angezeigt."
+                    "Keine"
                 ];
                 embed = {
                     "title": "Bot Befehl: " + titleArray[index],
@@ -388,15 +388,14 @@ module.exports = [
         name: "ranking",
         aliases: ["r"],
         alwaysTrigger: false,
-        command: (message, client, args) => {
+        command: (message) => {
             let fields = [];
             const fs = require("fs");
             let filePath = "./resources/userData/" + message.guild.id;
             let files = fs.readdirSync(filePath);
             for(file of files) {
                 let readFile = JSON.parse(fs.readFileSync(filePath + "/" + file));
-                let nickname = message.guild.members.cache.get(readFile["id"]).nickname;
-                if(args[0] === "tags" || args[0] === "t") nickname = readFile["tag"];
+                let nickname = readFile["tag"];
                 if(readFile["levelPoints"] > 0) fields.push({"name": nickname, "value": readFile["levelPoints"]});
             }
             let sortedFields = [];
