@@ -369,8 +369,9 @@ module.exports = [
                 string += fields[i]["name"];
                 string += fields[i]["value"];
             }
-            message.reply("Ich hab dir das Ranking zugeschickt!")
-            message.author.send("Das Punkte Ranking:\n" + string);
+            //message.reply("Ich hab dir das Ranking zugeschickt!")
+            //message.author.send("Das Punkte Ranking:\n" + string);
+            message.reply("Das Punkte Ranking:\n" + string);
         }
     },
     {
