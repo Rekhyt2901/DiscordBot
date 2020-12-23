@@ -64,7 +64,7 @@ client.on("message", function (message) {
     let args = commandBody.split(' ');
     let newArgs = [];
     for (i = 0; i < args.length; i++) {
-        if (!args[i].startsWith("<@!") && args[i].length !== 0) {
+        if (!args[i].startsWith("<@") && args[i].length !== 0) {
             newArgs.push(args[i]);
         }
     }
