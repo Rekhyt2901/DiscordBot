@@ -75,7 +75,7 @@ client.on("message", function (message) {
     //checking and executing every command
     let commands = require("./resources/commands.js");
     for (item of commands) {
-        //try {
+        try {
         if ((item.name === command || item.aliases.includes(command)) && message.content.startsWith(prefix)) {
             //Parameters: client Object, message Object, command arguments, data with state, whether it was triggered without a prefix
             item.command(message, client, args, item.remember, false, message.content.startsWith(prefix));
@@ -83,9 +83,9 @@ client.on("message", function (message) {
         } else if (item.alwaysTrigger) {
             item.command(message, client, args, item.remember, true, message.content.startsWith(prefix));
         }
-        //} catch {
+        } catch {
         //console.log("Ich bin abgestürzt hiiilfe");
-        //}
+        }
     }
     if (message.content.startsWith(prefix)) {
         message.reply("Invalid command, try /help.");
