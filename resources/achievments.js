@@ -1,4 +1,4 @@
-function sammleAlleVonLandProgress(land, gezogene) {
+function sammleAlleVonLand(land, gezogene) {
     let staatsoberhäupterListe = require("./staatsoberhäupter.json").staatsoberhäupter;
     if (gezogene.hasOwnProperty(land)) {
         let counter = 0;
@@ -15,6 +15,25 @@ function sammleAlleVonLandProgress(land, gezogene) {
             }
         }
         return { answer: "Du hast 0/" + staatsoberhäupterListe[index].names.length + " Staatsoberhäuptern aus " + land + "!", unlocked: false }
+    }
+}
+function sammleHalbeVonLand(land, gezogene) {
+    let staatsoberhäupterListe = require("./staatsoberhäupter.json").staatsoberhäupter;
+    if (gezogene.hasOwnProperty(land)) {
+        let counter = 0;
+        for (let i = 0; i < gezogene[land].length; i++) {
+            if (gezogene[land][i] > 0) counter++;
+        }
+        return { answer: "Du hast " + counter + "/" + Math.round(gezogene[land].length/2) + " Staatsoberhäuptern aus " + land + "!", unlocked: Boolean(counter >= Math.round(gezogene[land].length/2)) };
+    } else {
+        let index = 0;
+        for(let i = 0; i < staatsoberhäupterListe.length; i++) {
+            if(staatsoberhäupterListe[i].list === land) {
+                index = i;
+                break;
+            }
+        }
+        return { answer: "Du hast 0/" + Math.round(staatsoberhäupterListe[index].names.length/2) + " Staatsoberhäuptern aus " + land + "!", unlocked: false }
     }
 }
 
@@ -34,7 +53,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von Lettland",
         progress: (gezogene) => {
             let land = "Lettland";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 500
     },
@@ -43,7 +62,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von Japan",
         progress: (gezogene) => {
             let land = "Japan";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 2500
     },
@@ -52,7 +71,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von dem Vatikan ",
         progress: (gezogene) => {
             let land = "dem Vatikan";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 7500
     },
@@ -61,7 +80,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von Deutschland",
         progress: (gezogene) => {
             let land = "Deutschland";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 500
     },
@@ -70,7 +89,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von der UdSSR",
         progress: (gezogene) => {
             let land = "der UdSSR";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 500
     },
@@ -79,7 +98,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von der DDR",
         progress: (gezogene) => {
             let land = "der DDR";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 400
     },
@@ -88,7 +107,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von Österreich",
         progress: (gezogene) => {
             let land = "Österreich";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 1000
     },
@@ -97,7 +116,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von Burundis",
         progress: (gezogene) => {
             let land = "Burundis";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 500
     },
@@ -106,7 +125,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von dem Römischen Reich",
         progress: (gezogene) => {
             let land = "Rom";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 2500
     },
@@ -115,7 +134,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von Guatemala",
         progress: (gezogene) => {
             let land = "Guatemala";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 1500
     },
@@ -124,7 +143,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von Chile",
         progress: (gezogene) => {
             let land = "Chile";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 1500
     },
@@ -133,7 +152,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von Estland",
         progress: (gezogene) => {
             let land = "Estland";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 400
     },
@@ -142,7 +161,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von Litauen",
         progress: (gezogene) => {
             let land = "Litauen";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 1000
     },
@@ -151,7 +170,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von Schweden",
         progress: (gezogene) => {
             let land = "Schweden";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 2500
     },
@@ -160,7 +179,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von Portugal",
         progress: (gezogene) => {
             let land = "Portugal";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 750
     },
@@ -169,7 +188,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von England",
         progress: (gezogene) => {
             let land = "England";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 2000
     },
@@ -178,7 +197,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von Tuvalu",
         progress: (gezogene) => {
             let land = "Tuvalu";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 600
     },
@@ -187,7 +206,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von den Marschall Inseln",
         progress: (gezogene) => {
             let land = "Marschalla";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 600
     },
@@ -196,7 +215,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von Nord Korea",
         progress: (gezogene) => {
             let land = "Nordkorea";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 400
     },
@@ -205,7 +224,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von dem Zazland",
         progress: (gezogene) => {
             let land = "dem Zazland";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 1000
     },
@@ -214,7 +233,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von dem Dritten Reich",
         progress: (gezogene) => {
             let land = "Nazideutschland";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 100
     },
@@ -223,7 +242,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von Kurdistan",
         progress: (gezogene) => {
             let land = "Kurdistan";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 100
     },
@@ -232,7 +251,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von den USA",
         progress: (gezogene) => {
             let land = "den USA";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 1250
     },
@@ -241,7 +260,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von Frankreich",
         progress: (gezogene) => {
             let land = "Frankreich";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 2500
     },
@@ -250,7 +269,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von Finnland",
         progress: (gezogene) => {
             let land = "Finnland";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 600
     },
@@ -259,7 +278,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von Bhutan",
         progress: (gezogene) => {
             let land = "Bhutan";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 500
     },
@@ -268,7 +287,7 @@ module.exports = [
         description: "Sammle alle Staatsoberhäupter von Thailand",
         progress: (gezogene) => {
             let land = "Thailand";
-            return sammleAlleVonLandProgress(land, gezogene);
+            return sammleAlleVonLand(land, gezogene);
         },
         points: 1500
     },
@@ -346,7 +365,7 @@ module.exports = [
         progress: (gezogene) => {
             return sammleAnzahl(50, gezogene);
         },
-        points: 800
+        points: 700
     },
     {
         name: "100",
@@ -384,5 +403,203 @@ module.exports = [
             return sammleAnzahl(anzahl, gezogene);
         },
         points: 100000
+    },
+    {
+        name: "Halb-Lettland",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von Lettland",
+        progress: (gezogene) => {
+            let land = "Lettland";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 200
+    },
+    {
+        name: "Halb-Japan",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von Japan",
+        progress: (gezogene) => {
+            let land = "Japan";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 1000
+    },
+    {
+        name: "Halb-Vatikan",
+        description: "Sammle die Hälfte aller Staatsoberhäupter vom Vatikan",
+        progress: (gezogene) => {
+            let land = "dem Vatikan";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 3000
+    },
+    {
+        name: "Halb-Deutschland",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von Deutschland",
+        progress: (gezogene) => {
+            let land = "Deutschland";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 200
+    },
+    {
+        name: "Halb-UdSSR",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von der UdSSR",
+        progress: (gezogene) => {
+            let land = "der UdSSR";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 200
+    },
+    {
+        name: "Halb-DDR",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von der DDR",
+        progress: (gezogene) => {
+            let land = "der DDR";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 150
+    },
+    {
+        name: "Halb-Österreich",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von Österreich",
+        progress: (gezogene) => {
+            let land = "Österreich";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 350
+    },
+    {
+        name: "Halb-Burundis",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von Burundis",
+        progress: (gezogene) => {
+            let land = "Burundis";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 200
+    },
+    {
+        name: "Halb-Rom",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von Rom",
+        progress: (gezogene) => {
+            let land = "Rom";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 1000
+    },
+    {
+        name: "Halb-Guatemala",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von Guatemala",
+        progress: (gezogene) => {
+            let land = "Guatemala";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 650
+    },
+    {
+        name: "Halb-Chile",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von Chile",
+        progress: (gezogene) => {
+            let land = "Chile";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 650
+    },
+    {
+        name: "Halb-Litauen",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von Litauen",
+        progress: (gezogene) => {
+            let land = "Litauen";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 400
+    },
+    {
+        name: "Halb-Schweden",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von Schweden",
+        progress: (gezogene) => {
+            let land = "Schweden";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 1000
+    },
+    {
+        name: "Halb-Portugal",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von Portugal",
+        progress: (gezogene) => {
+            let land = "Portugal";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 250
+    },
+    {
+        name: "Halb-England",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von England",
+        progress: (gezogene) => {
+            let land = "England";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 750
+    },
+    {
+        name: "Halb-Tuvalu",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von Tuvalu",
+        progress: (gezogene) => {
+            let land = "Tuvalu";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 200
+    },
+    {
+        name: "Halb-Marschalla",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von den Marschall Inseln",
+        progress: (gezogene) => {
+            let land = "Marschalla";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 200
+    },
+    {
+        name: "Halb-USA",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von den USA",
+        progress: (gezogene) => {
+            let land = "den USA";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 500
+    },
+    {
+        name: "Halb-Frankreich",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von Frankreich",
+        progress: (gezogene) => {
+            let land = "Frankreich";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 1000
+    },
+    {
+        name: "Halb-Finnland",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von Finnland",
+        progress: (gezogene) => {
+            let land = "Finnland";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 200
+    },
+    {
+        name: "Halb-Bhutan",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von Bhutan",
+        progress: (gezogene) => {
+            let land = "Bhutan";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 200
+    },
+    {
+        name: "Halb-Thailand",
+        description: "Sammle die Hälfte aller Staatsoberhäupter von Thailand",
+        progress: (gezogene) => {
+            let land = "Thailand";
+            return sammleHalbeVonLand(land, gezogene);
+        },
+        points: 650
     }
 ]

@@ -347,7 +347,7 @@ module.exports = [
     },
     {
         name: "ranking",
-        aliases: ["r"],
+        aliases: ["r", "rank"],
         alwaysTrigger: false,
         command: (message) => {
             let fields = [];
@@ -770,7 +770,7 @@ module.exports = [
     },
     {
         name: "achievments",
-        aliases: ["a", "achievs"],
+        aliases: ["a", "achievs", "achievements"],
         alwaysTrigger: false,
         command: (message, client, args) => {
             let staatsoberhäupterListe = require("./staatsoberhäupter.json").staatsoberhäupter;
@@ -781,6 +781,7 @@ module.exports = [
             let fields = [];
             let fields2 = [];
             let fields3 = [];
+            let fields4 = [];
 
             /////////////// Filling the fields
             let halfWay = 15;
@@ -802,13 +803,22 @@ module.exports = [
                 fields2.push({ "name": achievments[i].name + " (" + achievments[i].points + " Punkte)", "value": preText + achievments[i].description + "\n```" });
             }
 
-            for (let i = staatsoberhäupterListe.length; i < achievments.length; i++) {
+            for (let i = staatsoberhäupterListe.length; i < staatsoberhäupterListe.length + 10; i++) {
                 let preText = "```diff\n- ";
                 if (achievments[i].progress(userData.staatsoberhäupter).unlocked) preText = "```fix\n"
                 let unlocked = false;
                 if (userData.unlockedAchievments.includes(i)) unlocked = true;
                 if (unlocked) preText = "```diff\n+ ";
                 fields3.push({ "name": achievments[i].name + " (" + achievments[i].points + " Punkte)", "value": preText + achievments[i].description + "\n```" });
+            }
+
+            for (let i = staatsoberhäupterListe.length + 10; i < staatsoberhäupterListe.length + 10 + 22; i++) {
+                let preText = "```diff\n- ";
+                if (achievments[i].progress(userData.staatsoberhäupter).unlocked) preText = "```fix\n"
+                let unlocked = false;
+                if (userData.unlockedAchievments.includes(i)) unlocked = true;
+                if (unlocked) preText = "```diff\n+ ";
+                fields4.push({ "name": achievments[i].name + " (" + achievments[i].points + " Punkte)", "value": preText + achievments[i].description + "\n```" });
             }
             //////////////////// End of filling
 
@@ -827,10 +837,17 @@ module.exports = [
                 "color": 6744043,
                 "fields": fields3
             }
+            const embed4 = {
+                "title": "`Samme Hälfte von einem Land Achievments:`",
+                "color": 6744043,
+                "fields": fields4
+            }
+            message.author.send("Um ein Achievment freizuschalten Benutz /unlock [Achievment-Name]");
             message.author.send({ embed: embed });
             message.author.send({ embed: embed2 });
+            message.author.send({ embed: embed4 });
             message.author.send({ embed: embed3 });
-            message.reply("Deine Daten wurden dir zugeschickt!");
+            message.reply("Deine Achievment-Daten wurden dir zugeschickt!");
         }
     },
     {
