@@ -699,6 +699,13 @@ module.exports = [
 
             if (isNaN(tradeOffer.angebot)) {
                 senderData.staatsoberhäupter[tradeOffer.angebot.staat][tradeOffer.angebot.index]--;
+                //
+                let newZeros = 0;
+                for(let i = 0; i < senderData.staatsoberhäupter[tradeOffer.angebot.staat].length; i++) {
+                    newZeros += senderData.staatsoberhäupter[tradeOffer.angebot.staat][i];
+                }
+                if(newZeros === 0) delete senderData.staatsoberhäupter[tradeOffer.angebot.staat];
+                //
                 if (userData.staatsoberhäupter.hasOwnProperty(tradeOffer.angebot.staat)) {
                     userData.staatsoberhäupter[tradeOffer.angebot.staat][tradeOffer.angebot.index]++;
                 } else {
@@ -713,6 +720,13 @@ module.exports = [
             }
             if (isNaN(tradeOffer.nachfrage)) {
                 userData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index]--;
+                //
+                let newZeros = 0;
+                for(let i = 0; i < userData.staatsoberhäupter[tradeOffer.nachfrage.staat].length; i++) {
+                    newZeros += userData.staatsoberhäupter[tradeOffer.nachfrage.staat][i];
+                }
+                if(newZeros === 0) delete userData.staatsoberhäupter[tradeOffer.nachfrage.staat];
+                //
                 if (senderData.staatsoberhäupter.hasOwnProperty(tradeOffer.nachfrage.staat)) {
                     senderData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index]++;
                 } else {

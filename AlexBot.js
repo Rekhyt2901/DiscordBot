@@ -41,7 +41,7 @@ client.on("guildMemberAdd", (guildMember) => {
     }
 });
 
-client.on("message", function (message) {
+client.on("message", async (message) => {
     if (message.author.bot || !message.guild) return;
     //console.log(message.author.username + " said: " + message.content); //logging messages to console
 
@@ -84,8 +84,10 @@ client.on("message", function (message) {
             } else if (item.alwaysTrigger) {
                 item.command(message, client, args, item.remember, true, message.content.startsWith(prefix));
             }
-        } catch {
+        } catch(err) {
             console.log("Ich bin abgestürzt hiiilfe");
+            let alex = await client.users.fetch("399177273032572948");
+            alex.send("Ich habe diesen Fehler gecatched:\n\n" + JSON.stringify(err, null, 4));
         }
     }
     if (message.content.startsWith(prefix)) {
