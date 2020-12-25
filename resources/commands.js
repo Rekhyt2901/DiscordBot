@@ -1046,6 +1046,7 @@ module.exports = [
                     string += "```";
                     if (atleastOne) {
                         message.author.send("Folgende User haben Staatsoberhäupter aus " + query + ":\n" + string);
+                        message.reply("Ich hab dir die Suchergebnisse zugeschickt!");
                         return;
                     } else {
                         message.reply("Niemand hat ein Staatsoberhaupt aus " + query + "!");
@@ -1084,6 +1085,7 @@ module.exports = [
                 string += "```";
                 if (atleastOne) {
                     message.author.send("Folgende User haben das Staatsoberhaupt '" + query + "':\n" + string);
+                    message.reply("Ich hab dir die Suchergebnisse zugeschickt!");
                     return;
                 } else {
                     message.reply("Niemand hat das Staatsoberhaupt '" + query + "'!");
