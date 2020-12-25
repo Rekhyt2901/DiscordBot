@@ -383,7 +383,7 @@ module.exports = [
         aliases: ["l", "li"],
         alwaysTrigger: false,
         command: (message, client, args) => {
-            const fs = require("fs");
+            /* const fs = require("fs");
             let filePath = "./resources/userData/" + message.guild.id + "/" + message.author.id + ".json";
             if (message.mentions.users.first()) {
                 if (message.mentions.users.first().bot) {
@@ -445,6 +445,106 @@ module.exports = [
                     }
                 }
                 if (!validStaat) {
+                    embed = {
+                        "title": "Vertippt?",
+                        "description": "Entweder du hast noch kein Oberhaupt aus '" + staat + "' oder es gibt das Land nicht!",
+                        "color": 6744043,
+                    };
+                    if (message.mentions.users.first()) {
+                        embed = {
+                            "title": "Vertippt?",
+                            "description": "Entweder " + message.mentions.users.first().tag + " hat noch kein Oberhaupt aus '" + staat + "' oder es gibt das Land nicht!",
+                            "color": 6744043,
+                        };
+                    }
+                    message.reply({ embed: embed });
+                    return;
+                }
+
+                for (let i = 0; i < staatsoberhäupter[staat].length; i++) {
+                    let landIndex;
+                    for (let j = 0; j < staatsoberhäupterListe.length; j++) if (staatsoberhäupterListe[j].list === staat) landIndex = j;
+                    if (staatsoberhäupter[staat][i] > 0) fields.push({ "name": (i + 1) + ". " + staatsoberhäupterListe[landIndex].names[i], "value": staatsoberhäupter[staat][i] })
+                }
+                let string = "```diff\n";
+                for (let i = 0; i < fields.length; i++) {
+                    fields[i]["name"] = "+ " + fields[i]["name"] + ":";
+                    fields[i]["value"] = " " + fields[i]["value"] + "\n"
+                    string += fields[i]["name"];
+                    string += fields[i]["value"];
+                }
+                string += "\n```";
+                if (message.mentions.users.first()) {
+                    message.author.send("Die Staatsoberhäupter von " + message.mentions.users.first().tag + " aus " + staat + ":\n" + string);
+                    message.reply("Ich hab dir die Liste der Staatsoberhäupter von " + message.mentions.users.first().tag + " aus " + staat + " zugeschickt!");
+                    return;
+                }
+                message.author.send("Deine Staatsoberhäupter aus " + staat + ":\n" + string);
+                message.reply("Ich hab dir deine Staatsoberhäupter aus " + staat + " zugeschickt")
+            } */
+            const fs = require("fs");
+            let staatsoberhäupterListe = require("./staatsoberhäupter.json").staatsoberhäupter;
+            let filePath = "./resources/userData/" + message.guild.id + "/" + message.author.id + ".json";
+            if (message.mentions.users.first()) {
+                if (message.mentions.users.first().bot) {
+                    message.reply("Der User den du angegeben hast ist ein Bot.");
+                    return;
+                }
+                if (!message.guild.member(message.mentions.users.first().id)) {
+                    message.reply("Der angegebene User ist nicht auf diesem Server!");
+                    return;
+                }
+                filePath = "./resources/userData/" + message.guild.id + "/" + message.mentions.users.first().id + ".json";
+            }
+            let userData = JSON.parse(fs.readFileSync(filePath));
+            let staatsoberhäupter = userData.staatsoberhäupter;
+
+            let string = "";
+            if (args.length === 0) {
+                for (staat in staatsoberhäupter) {
+                    let anzahlOberhäupter = 0;
+                    for (let i = 0; i < staatsoberhäupter[staat].length; i++) anzahlOberhäupter += staatsoberhäupter[staat][i];
+                    let name = staat;
+                    if (staat.split(" ").length > 1) name = staat.split(" ")[1];
+                    string += "**" + name + ": " + anzahlOberhäupter + "**\n```diff\n";
+                    for (let i = 0; i < staatsoberhäupter[staat].length; i++) {
+                        let landIndex;
+                        for (let j = 0; j < staatsoberhäupterListe.length; j++) if (staatsoberhäupterListe[j].list === staat) landIndex = j;
+                        if (staatsoberhäupter[staat][i] > 0) {
+                            string += "+ " + staatsoberhäupterListe[landIndex].names[i] + ": " + staatsoberhäupter[staat][i] + "\n";
+                        }
+                    }
+                    string += "\n```\n";
+                }
+
+                if (message.mentions.users.first()) {
+                    message.author.send("Die Staatsoberhäupter von " + message.mentions.users.first().tag + " nach Ländern:\n" + string);
+                    message.reply("Ich hab dir die Liste der Staatsoberhäupter von " + message.mentions.users.first().tag + " zugeschickt!");
+                    return;
+                }
+                message.author.send("Deine Staatsoberhäupter nach Ländern:\n\n" + string);
+                message.reply("Ich hab dir die Liste deiner Staatsoberhäupter zugeschickt!");
+            } else {
+                let staat = args[0].toLowerCase();
+                let fields = [];
+
+                for (property in staatsoberhäupter) {
+                    if (staatsoberhäupter.hasOwnProperty(property)) {
+                        if (property.toLowerCase() === staat || (property.split(" ").length > 1 && property.split(" ")[1].toLowerCase() === staat)) {
+                            staat = property;
+                            break;
+                        }
+                    }
+                }
+
+                let validStaat = false;
+                for (property in staatsoberhäupter) {
+                    if (property === staat) {
+                        validStaat = true;
+                    }
+                }
+                if (!validStaat) {
+                    let embed;
                     embed = {
                         "title": "Vertippt?",
                         "description": "Entweder du hast noch kein Oberhaupt aus '" + staat + "' oder es gibt das Land nicht!",
