@@ -570,6 +570,10 @@ module.exports = [
                 }
             } else {
                 name1Object = Math.floor(Number.parseInt(args[0]));
+                if (name1Object > userData1.levelPoints) {
+                    message.reply("Du hast nicht genug Punkte!");
+                    return;
+                }
             }
 
 
@@ -604,6 +608,10 @@ module.exports = [
                 }
             } else {
                 name2Object = Math.floor(Number.parseInt(args[1]));
+                if (name2Object > userData2.levelPoints) {
+                    message.reply("Dein Tauschpartner hat nicht genug Punkte!");
+                    return;
+                }
             }
 
             let anfrage = {
@@ -697,6 +705,9 @@ module.exports = [
             let senderData = JSON.parse(fs.readFileSync("./resources/userData/" + message.guild.id + "/" + sender.id + ".json"));
             let userData = JSON.parse(fs.readFileSync("./resources/userData/" + message.guild.id + "/" + message.author.id + ".json"));
 
+            console.log("tradeOffer:", tradeOffer);
+            console.log("senderData:", senderData);
+            console.log("userData", userData);
             if (isNaN(tradeOffer.angebot)) {
                 senderData.staatsoberhäupter[tradeOffer.angebot.staat][tradeOffer.angebot.index]--;
                 //
@@ -731,6 +742,7 @@ module.exports = [
                     senderData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index]++;
                 } else {
                     let zeroArray = [];
+                    console.log(tradeOffer);
                     for (let i = 0; i < userData.staatsoberhäupter[tradeOffer.nachfrage.staat].length; i++) zeroArray.push(0);
                     senderData.staatsoberhäupter[tradeOffer.nachfrage.staat] = zeroArray;
                     senderData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index]++;

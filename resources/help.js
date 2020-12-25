@@ -64,6 +64,10 @@ module.exports = (message, client, args) => {
                 {
                     "name": "/unlock",
                     "value": "Schaltet das angegebene Achievment frei und gibt dir die Punkte dafür."
+                },
+                {
+                    "name": "/search",
+                    "value": "Zeigt alle user an die ein angegebenes Land oder Staatsoberhaupt besitzen."
                 }
             ]
         };
@@ -298,6 +302,22 @@ module.exports = (message, client, args) => {
         } else if (arg.match(/^(listall|la)$/i)) {
             embed = {
                 "title": "/listAll",
+                "description": "Zeigt alle Staatsoberhäupter des Angegeben Landes an. Die die man besitzt werden Grün markiert, der rest rot. Die Staatsoberhäupter sind numeriert. Wird kein Land angegeben, wird eine Liste der Länder angezeigt.",
+                "color": 6744043,
+                "fields": [
+                    {
+                        "name": "Aliase:",
+                        "value": "/listall /la"
+                    },
+                    {
+                        "name": "Argumente:",
+                        "value": "Optional: @mention zeigt die Liste des gementionten Users an.\nEin Land. Das Land dessen Staatsoberhäupter du sehen möchtest."
+                    }
+                ]
+            };
+        } else if (arg.match(/^(search|s|such)$/i)) {
+            embed = {
+                "title": "/search",
                 "description": "Zeigt alle Staatsoberhäupter des Angegeben Landes an. Die die man besitzt werden Grün markiert, der rest rot. Die Staatsoberhäupter sind numeriert. Wird kein Land angegeben, wird eine Liste der Länder angezeigt.",
                 "color": 6744043,
                 "fields": [
