@@ -705,9 +705,9 @@ module.exports = [
             let senderData = JSON.parse(fs.readFileSync("./resources/userData/" + message.guild.id + "/" + sender.id + ".json"));
             let userData = JSON.parse(fs.readFileSync("./resources/userData/" + message.guild.id + "/" + message.author.id + ".json"));
 
-            console.log("tradeOffer:", tradeOffer);
             console.log("senderData:", senderData);
             console.log("userData", userData);
+            console.log("tradeOffer:", tradeOffer);
             if (isNaN(tradeOffer.angebot)) {
                 senderData.staatsoberhäupter[tradeOffer.angebot.staat][tradeOffer.angebot.index]--;
                 //
