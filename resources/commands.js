@@ -733,31 +733,44 @@ module.exports = [
                 senderData.levelPoints -= tradeOffer.angebot;
                 userData.levelPoints += tradeOffer.angebot;
             }
+            console.log("vor nachfrage");
             if (isNaN(tradeOffer.nachfrage)) {
+                console.log("in nachfrage", userData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index]);
                 userData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index]--;
+                console.log("nach --", userData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index]);
                 //
                 let newZeros = 0;
                 for (let i = 0; i < userData.staatsoberhäupter[tradeOffer.nachfrage.staat].length; i++) {
                     newZeros += userData.staatsoberhäupter[tradeOffer.nachfrage.staat][i];
                 }
+                console.log("nach for1");
                 if (newZeros === 0) delete userData.staatsoberhäupter[tradeOffer.nachfrage.staat];
                 //
+                console.log("nach delete");
                 if (senderData.staatsoberhäupter.hasOwnProperty(tradeOffer.nachfrage.staat)) {
+                    console.log("in if");
                     senderData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index]++;
                 } else {
+                    console.log("in else");
                     let zeroArray = [];
                     console.log(tradeOffer);
+                    console.log("for for");
                     for (let i = 0; i < userData.staatsoberhäupter[tradeOffer.nachfrage.staat].length; i++) zeroArray.push(0);
                     senderData.staatsoberhäupter[tradeOffer.nachfrage.staat] = zeroArray;
+                    console.log("senderd = zeroarray naxg");
                     senderData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index]++;
+                    console.log("letztes");
                 }
             } else {
                 senderData.levelPoints += tradeOffer.nachfrage;
                 userData.levelPoints -= tradeOffer.nachfrage;
             }
             let filePath = "./resources/userData/" + message.guild.id + "/";
+            console.log("vor writefile");
             fs.writeFileSync(filePath + userData.id + ".json", JSON.stringify(userData));
+            console.log("zweichen writefile");
             fs.writeFileSync(filePath + senderData.id + ".json", JSON.stringify(senderData));
+            console.log("nach writefile");
 
             sender.send("Der User '" + getUserData(message, "nickname") + "' hat dein Tauschangebot angenommen!")
             message.reply("Du hast das Angebot von '" + senderData.nickname + "' angenommen!");
@@ -842,7 +855,7 @@ module.exports = [
                 fields3.push({ "name": achievments[i].name + " (" + achievments[i].points + " Punkte)", "value": preText + achievments[i].description + "\n```" });
             }
 
-            for (let i = staatsoberhäupterListe.length + 10; i < staatsoberhäupterListe.length + 10 + 22; i++) {
+            for (let i = staatsoberhäupterListe.length + 10; i < staatsoberhäupterListe.length + 10 + 24; i++) {
                 let preText = "```diff\n- ";
                 if (achievments[i].progress(userData.staatsoberhäupter).unlocked) preText = "```fix\n"
                 let unlocked = false;

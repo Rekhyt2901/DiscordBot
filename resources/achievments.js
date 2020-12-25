@@ -603,6 +603,31 @@ module.exports = [
         points: 650
     },
     {
+        name: "Viertel-Japan",
+        description: "Sammle ein Viertel aller Staatsoberhäupter von Japan",
+        progress: (gezogene) => {
+            let land = "Japan";
+            let staatsoberhäupterListe = require("./staatsoberhäupter.json").staatsoberhäupter;
+            if (gezogene.hasOwnProperty(land)) {
+                let counter = 0;
+                for (let i = 0; i < gezogene[land].length; i++) {
+                    if (gezogene[land][i] > 0) counter++;
+                }
+                return { answer: "Du hast " + counter + "/" + Math.round(gezogene[land].length / 4) + " Staatsoberhäuptern aus " + land + "!", unlocked: Boolean(counter >= Math.round(gezogene[land].length / 2)) };
+            } else {
+                let index = 0;
+                for (let i = 0; i < staatsoberhäupterListe.length; i++) {
+                    if (staatsoberhäupterListe[i].list === land) {
+                        index = i;
+                        break;
+                    }
+                }
+                return { answer: "Du hast 0/" + Math.round(staatsoberhäupterListe[index].names.length / 4) + " Staatsoberhäuptern aus " + land + "!", unlocked: false }
+            }
+        },
+        points: 750
+    },
+    {
         name: "Viertel-Vatikan",
         description: "Sammle ein Viertel aller Staatsoberhäupter vom Vatikan",
         progress: (gezogene) => {

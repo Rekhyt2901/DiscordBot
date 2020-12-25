@@ -57,6 +57,10 @@ module.exports = {
                     return "Fehler bei der Datenabfrage.";
                 }
             }
+        },
+        {
+            question: "test",
+            answer: "ich laufe!"
         }
     ]
 }
