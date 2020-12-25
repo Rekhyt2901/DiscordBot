@@ -76,19 +76,11 @@ client.on("message", async (message) => {
     //checking and executing every command
     let commands = require("./resources/commands.js");
     for (item of commands) {
-        try {
-            if ((item.name === command || item.aliases.includes(command)) && message.content.startsWith(prefix)) {
-                //Parameters: client Object, message Object, command arguments, data with state, whether it was triggered without a prefix
-                item.command(message, client, args, item.remember, false, message.content.startsWith(prefix));
-                return;
-            } else if (item.alwaysTrigger) {
-                item.command(message, client, args, item.remember, true, message.content.startsWith(prefix));
-            }
-        } catch(err) {
-            console.log("Fehler!!!", err);
-            let alex = await client.users.fetch("399177273032572948");
-            alex.send("Ich habe diesen Fehler gecatched:\n\n" + JSON.stringify(err, null, 4));
+        let hasCmdArgs = (item.name === command || item.aliases.includes(command)) && message.content.startsWith(prefix);
+        if (hasCmdArgs || item.alwaysTrigger){
+            executeCommand(item, message, client, args, !hasCmdArgs);
         }
+        if(hasCmdArgs) return; //wofür das? habe ich nicht verstanden.
     }
     if (message.content.startsWith(prefix)) {
         message.reply("Invalid command, try /help.");
@@ -97,3 +89,13 @@ client.on("message", async (message) => {
 
 client.login(config.token); //login the bot
 
+function executeCommand(item, message, client, args){
+    try {
+        //Parameters: client Object, message Object, command arguments, data with state, whether it was triggered without a prefix
+        item.command(message, client, args, item.remember, args, message.content.startsWith(prefix));
+    } catch(err) {
+        console.log("Fehler!!!", err);
+        let alex = await client.users.fetch("399177273032572948");
+        alex.send("Ich habe diesen Fehler gecatched:\n\n" + JSON.stringify(err, null, 4));
+    }
+}
