@@ -709,18 +709,8 @@ module.exports = [
             let senderData = JSON.parse(fs.readFileSync("./resources/userData/" + message.guild.id + "/" + sender.id + ".json"));
             let userData = JSON.parse(fs.readFileSync("./resources/userData/" + message.guild.id + "/" + message.author.id + ".json"));
 
-            console.log("senderData:", senderData);
-            console.log("userData", userData);
-            console.log("tradeOffer:", tradeOffer);
             if (isNaN(tradeOffer.angebot)) {
                 senderData.staatsoberhäupter[tradeOffer.angebot.staat][tradeOffer.angebot.index]--;
-                //
-                let newZeros = 0;
-                for (let i = 0; i < senderData.staatsoberhäupter[tradeOffer.angebot.staat].length; i++) {
-                    newZeros += senderData.staatsoberhäupter[tradeOffer.angebot.staat][i];
-                }
-                if (newZeros === 0) delete senderData.staatsoberhäupter[tradeOffer.angebot.staat];
-                //
                 if (userData.staatsoberhäupter.hasOwnProperty(tradeOffer.angebot.staat)) {
                     userData.staatsoberhäupter[tradeOffer.angebot.staat][tradeOffer.angebot.index]++;
                 } else {
@@ -729,48 +719,42 @@ module.exports = [
                     userData.staatsoberhäupter[tradeOffer.angebot.staat] = zeroArray;
                     userData.staatsoberhäupter[tradeOffer.angebot.staat][tradeOffer.angebot.index]++;
                 }
+                //
+                let newZeros = 0;
+                for (let i = 0; i < senderData.staatsoberhäupter[tradeOffer.angebot.staat].length; i++) {
+                    newZeros += senderData.staatsoberhäupter[tradeOffer.angebot.staat][i];
+                }
+                if (newZeros === 0) delete senderData.staatsoberhäupter[tradeOffer.angebot.staat];
+                //
             } else {
                 senderData.levelPoints -= tradeOffer.angebot;
                 userData.levelPoints += tradeOffer.angebot;
             }
-            console.log("vor nachfrage");
             if (isNaN(tradeOffer.nachfrage)) {
-                console.log("in nachfrage", userData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index]);
                 userData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index]--;
-                console.log("nach --", userData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index]);
+                if (senderData.staatsoberhäupter.hasOwnProperty(tradeOffer.nachfrage.staat)) {
+                    senderData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index]++;
+                } else {
+                    let zeroArray = [];
+                    console.log("fehler:", userData); //cannot read length of undefined
+                    for (let i = 0; i < userData.staatsoberhäupter[tradeOffer.nachfrage.staat].length; i++) zeroArray.push(0);
+                    senderData.staatsoberhäupter[tradeOffer.nachfrage.staat] = zeroArray;
+                    senderData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index]++;
+                }
                 //
                 let newZeros = 0;
                 for (let i = 0; i < userData.staatsoberhäupter[tradeOffer.nachfrage.staat].length; i++) {
                     newZeros += userData.staatsoberhäupter[tradeOffer.nachfrage.staat][i];
                 }
-                console.log("nach for1");
                 if (newZeros === 0) delete userData.staatsoberhäupter[tradeOffer.nachfrage.staat];
                 //
-                console.log("nach delete");
-                if (senderData.staatsoberhäupter.hasOwnProperty(tradeOffer.nachfrage.staat)) {
-                    console.log("in if");
-                    senderData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index]++;
-                } else {
-                    console.log("in else");
-                    let zeroArray = [];
-                    console.log(tradeOffer);
-                    console.log("for for");
-                    for (let i = 0; i < userData.staatsoberhäupter[tradeOffer.nachfrage.staat].length; i++) zeroArray.push(0);
-                    senderData.staatsoberhäupter[tradeOffer.nachfrage.staat] = zeroArray;
-                    console.log("senderd = zeroarray naxg");
-                    senderData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index]++;
-                    console.log("letztes");
-                }
             } else {
                 senderData.levelPoints += tradeOffer.nachfrage;
                 userData.levelPoints -= tradeOffer.nachfrage;
             }
             let filePath = "./resources/userData/" + message.guild.id + "/";
-            console.log("vor writefile");
             fs.writeFileSync(filePath + userData.id + ".json", JSON.stringify(userData));
-            console.log("zweichen writefile");
             fs.writeFileSync(filePath + senderData.id + ".json", JSON.stringify(senderData));
-            console.log("nach writefile");
 
             sender.send("Der User '" + getUserData(message, "nickname") + "' hat dein Tauschangebot angenommen!")
             message.reply("Du hast das Angebot von '" + senderData.nickname + "' angenommen!");
