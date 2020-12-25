@@ -701,10 +701,10 @@ module.exports = [
                 senderData.staatsoberhäupter[tradeOffer.angebot.staat][tradeOffer.angebot.index]--;
                 //
                 let newZeros = 0;
-                for(let i = 0; i < senderData.staatsoberhäupter[tradeOffer.angebot.staat].length; i++) {
+                for (let i = 0; i < senderData.staatsoberhäupter[tradeOffer.angebot.staat].length; i++) {
                     newZeros += senderData.staatsoberhäupter[tradeOffer.angebot.staat][i];
                 }
-                if(newZeros === 0) delete senderData.staatsoberhäupter[tradeOffer.angebot.staat];
+                if (newZeros === 0) delete senderData.staatsoberhäupter[tradeOffer.angebot.staat];
                 //
                 if (userData.staatsoberhäupter.hasOwnProperty(tradeOffer.angebot.staat)) {
                     userData.staatsoberhäupter[tradeOffer.angebot.staat][tradeOffer.angebot.index]++;
@@ -722,10 +722,10 @@ module.exports = [
                 userData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index]--;
                 //
                 let newZeros = 0;
-                for(let i = 0; i < userData.staatsoberhäupter[tradeOffer.nachfrage.staat].length; i++) {
+                for (let i = 0; i < userData.staatsoberhäupter[tradeOffer.nachfrage.staat].length; i++) {
                     newZeros += userData.staatsoberhäupter[tradeOffer.nachfrage.staat][i];
                 }
-                if(newZeros === 0) delete userData.staatsoberhäupter[tradeOffer.nachfrage.staat];
+                if (newZeros === 0) delete userData.staatsoberhäupter[tradeOffer.nachfrage.staat];
                 //
                 if (senderData.staatsoberhäupter.hasOwnProperty(tradeOffer.nachfrage.staat)) {
                     senderData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index]++;
@@ -749,7 +749,7 @@ module.exports = [
     },
     {
         name: "tradereject",
-        aliases: ["tr"],
+        aliases: ["tr", "tradedecline"],
         alwaysTrigger: false,
         command: async (message, client, args) => {
             if (args.length === 0) {
@@ -1007,6 +1007,89 @@ module.exports = [
         alwaysTrigger: false,
         command: (message) => {
             message.reply("Digga ich kann kein Spanisch");
+        }
+    },
+    {
+        name: "search",
+        aliases: ["s", "such"],
+        alwaysTrigger: false,
+        command: (message, client, args) => {
+            if (args.length === 0) {
+                message.reply("Gib bitte an was du suchen möchtest! (Ein Land oder ein Staatsoberhaupt)");
+                return;
+            }
+            if (!isNaN(args[0])) {
+                message.reply("'" + args[0] + "' ist weder ein Land noch ein Name!");
+                return;
+            }
+            let query = args.join(" ").toLowerCase();
+            const staatsoberhäupterListe = require("./staatsoberhäupter.json").staatsoberhäupter;
+            const fs = require("fs");
+            let filePath = "./resources/userData/" + message.guild.id
+            let files = fs.readdirSync(filePath);
+            let string = "```fix\n";
+            for (let i = 0; i < staatsoberhäupterListe.length; i++) {
+                if (staatsoberhäupterListe[i].list.toLowerCase() === query || (staatsoberhäupterListe[i].list.split(" ").length > 1 && staatsoberhäupterListe[i].list.split(" ")[1].toLowerCase() === query)) {
+                    //query ist ein land
+                    query = staatsoberhäupterListe[i].list;
+                    let atleastOne = false;
+                    for (file of files) {
+                        const readFile = JSON.parse(fs.readFileSync(filePath + "/" + file));
+                        let gezogene = readFile.staatsoberhäupter;
+                        if (gezogene.hasOwnProperty(query)) {
+                            atleastOne = true;
+                            let counter = 0;
+                            for (let j = 0; j < gezogene[query].length; j++) counter += gezogene[query][j];
+                            string += readFile["nickname"] + ": " + counter + "\n";
+                        }
+                    }
+                    string += "```";
+                    if (atleastOne) {
+                        message.author.send("Folgende User haben Staatsoberhäupter aus " + query + ":\n" + string);
+                        return;
+                    } else {
+                        message.reply("Niemand hat ein Staatsoberhaupt aus " + query + "!");
+                        return;
+                    }
+                }
+            }
+            //query ist kein land
+            let land;
+            let index;
+            let found = false;
+            for (let i = 0; i < staatsoberhäupterListe.length; i++) {
+                for (let j = 0; j < staatsoberhäupterListe[i].names.length; j++) {
+                    if (query === staatsoberhäupterListe[i].names[j].toLowerCase()) {
+                        land = staatsoberhäupterListe[i].list;
+                        index = j;
+                        found = true;
+                    }
+                }
+            }
+            if (!found) {
+                message.reply("Das Staatsoberhaupt '" + query + "' scheint es nicht zu Geben! Achte auf Sonderzeichen!");
+                return;
+            } else {
+                let atleastOne = false;
+                for (file of files) {
+                    const readFile = JSON.parse(fs.readFileSync(filePath + "/" + file));
+                    let gezogene = readFile.staatsoberhäupter;
+                    if (gezogene.hasOwnProperty(land)) {
+                        if (gezogene[land][index] > 0) {
+                            string += readFile["nickname"] + ": " + gezogene[land][index] + "\n";
+                            atleastOne = true;
+                        }
+                    }
+                }
+                string += "```";
+                if (atleastOne) {
+                    message.author.send("Folgende User haben das Staatsoberhaupt '" + query + "':\n" + string);
+                    return;
+                } else {
+                    message.reply("Niemand hat das Staatsoberhaupt '" + query + "'!");
+                    return;
+                }
+            }
         }
     }
 ];

@@ -8,8 +8,8 @@ function sammleAlleVonLand(land, gezogene) {
         return { answer: "Du hast " + counter + "/" + gezogene[land].length + " Staatsoberhäuptern aus " + land + "!", unlocked: Boolean(counter >= gezogene[land].length) };
     } else {
         let index = 0;
-        for(let i = 0; i < staatsoberhäupterListe.length; i++) {
-            if(staatsoberhäupterListe[i].list === land) {
+        for (let i = 0; i < staatsoberhäupterListe.length; i++) {
+            if (staatsoberhäupterListe[i].list === land) {
                 index = i;
                 break;
             }
@@ -24,16 +24,16 @@ function sammleHalbeVonLand(land, gezogene) {
         for (let i = 0; i < gezogene[land].length; i++) {
             if (gezogene[land][i] > 0) counter++;
         }
-        return { answer: "Du hast " + counter + "/" + Math.round(gezogene[land].length/2) + " Staatsoberhäuptern aus " + land + "!", unlocked: Boolean(counter >= Math.round(gezogene[land].length/2)) };
+        return { answer: "Du hast " + counter + "/" + Math.round(gezogene[land].length / 2) + " Staatsoberhäuptern aus " + land + "!", unlocked: Boolean(counter >= Math.round(gezogene[land].length / 2)) };
     } else {
         let index = 0;
-        for(let i = 0; i < staatsoberhäupterListe.length; i++) {
-            if(staatsoberhäupterListe[i].list === land) {
+        for (let i = 0; i < staatsoberhäupterListe.length; i++) {
+            if (staatsoberhäupterListe[i].list === land) {
                 index = i;
                 break;
             }
         }
-        return { answer: "Du hast 0/" + Math.round(staatsoberhäupterListe[index].names.length/2) + " Staatsoberhäuptern aus " + land + "!", unlocked: false }
+        return { answer: "Du hast 0/" + Math.round(staatsoberhäupterListe[index].names.length / 2) + " Staatsoberhäuptern aus " + land + "!", unlocked: false }
     }
 }
 
@@ -121,7 +121,7 @@ module.exports = [
         points: 500
     },
     {
-        name: "Römisches Reich",
+        name: "Rom",
         description: "Sammle alle Staatsoberhäupter von dem Römischen Reich",
         progress: (gezogene) => {
             let land = "Rom";
@@ -601,5 +601,30 @@ module.exports = [
             return sammleHalbeVonLand(land, gezogene);
         },
         points: 650
+    },
+    {
+        name: "Viertel-Vatikan",
+        description: "Sammle ein Viertel aller Staatsoberhäupter vom Vatikan",
+        progress: (gezogene) => {
+            let land = "dem Vatikan";
+            let staatsoberhäupterListe = require("./staatsoberhäupter.json").staatsoberhäupter;
+            if (gezogene.hasOwnProperty(land)) {
+                let counter = 0;
+                for (let i = 0; i < gezogene[land].length; i++) {
+                    if (gezogene[land][i] > 0) counter++;
+                }
+                return { answer: "Du hast " + counter + "/" + Math.round(gezogene[land].length / 4) + " Staatsoberhäuptern aus " + land + "!", unlocked: Boolean(counter >= Math.round(gezogene[land].length / 2)) };
+            } else {
+                let index = 0;
+                for (let i = 0; i < staatsoberhäupterListe.length; i++) {
+                    if (staatsoberhäupterListe[i].list === land) {
+                        index = i;
+                        break;
+                    }
+                }
+                return { answer: "Du hast 0/" + Math.round(staatsoberhäupterListe[index].names.length / 4) + " Staatsoberhäuptern aus " + land + "!", unlocked: false }
+            }
+        },
+        points: 2000
     }
 ]
