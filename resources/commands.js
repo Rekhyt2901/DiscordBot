@@ -306,6 +306,10 @@ module.exports = [
                         {
                             "name": "Achievments:",
                             "value": data.unlockedAchievments.length + "/" + achievments.length
+                        },
+                        {
+                            "name": "User-Id",
+                            "value": user.id
                         }
                     ]
                 };
