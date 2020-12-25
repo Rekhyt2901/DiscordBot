@@ -651,5 +651,50 @@ module.exports = [
             }
         },
         points: 2000
+    },
+    {
+        name: "Derselbe-3",
+        description: "Sammle dasselbe Staatsoberhaupt drei mal",
+        progress: (gezogene) => {
+            for(land in gezogene) {
+                for( let i = 0; i < gezogene[land].length; i++) {
+                    if(gezogene[land][i] >= 3) {
+                        return { answer: "Du hast 3 mal dasselbe Staatsoberhaupt!", unlocked: true }
+                    }
+                }
+            }
+            return { answer: "Du hast noch kein Staatsoberhaupt drei Mal!", unlocked: false }
+        },
+        points: 500
+    },
+    {
+        name: "Derselbe-5",
+        description: "Sammle dasselbe Staatsoberhaupt fünf mal",
+        progress: (gezogene) => {
+            for(land in gezogene) {
+                for( let i = 0; i < gezogene[land].length; i++) {
+                    if(gezogene[land][i] >= 5) {
+                        return { answer: "Du hast 5 mal dasselbe Staatsoberhaupt!", unlocked: true }
+                    }
+                }
+            }
+            return { answer: "Du hast noch kein Staatsoberhaupt fünf Mal!", unlocked: false }
+        },
+        points: 1500
+    },
+    {
+        name: "Derselbe-10",
+        description: "Sammle das selbe Staatsoberhaupt zehn mal",
+        progress: (gezogene) => {
+            for(land in gezogene) {
+                for( let i = 0; i < gezogene[land].length; i++) {
+                    if(gezogene[land][i] >= 10) {
+                        return { answer: "Du hast 10 mal dasselbe Staatsoberhaupt!", unlocked: true }
+                    }
+                }
+            }
+            return { answer: "Du hast noch kein Staatsoberhaupt zehn Mal!", unlocked: false }
+        },
+        points: 2500
     }
 ]

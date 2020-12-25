@@ -213,27 +213,27 @@ module.exports = [
                 remember.channelId = message.channel.id;
                 if (!fs.existsSync("./resources/skribbl")) fs.mkdirSync("./resources/skribbl");
                 remember.filePath = "./resources/skribbl/" + message.createdAt.toISOString().replace(/:|\./g, "-") + ".dat";
-                console.log("Started Recording Words!");
+                //console.log("Started Recording Words!");
                 message.guild.channels.cache.get(remember.channelId).send("Started Recording Words!");
                 remember.recording = !remember.recording;
                 return;
             }
             //Return if not from same channel
             if (message.channel.id !== remember.channelId && remember.recording) {
-                console.log("Message from wrong Channel!");
+                //console.log("Message from wrong Channel!");
                 return;
             }
             //Stop recording
             if (remember.recording && !falseTriggered) {
                 message.guild.channels.cache.get(remember.channelId).send("Stopped recording Words!\n" + (fs.existsSync(remember.filePath) ? fs.readFileSync(remember.filePath) : "No Words were recorded.") + "\nPlay at https://skribbl.io/");
-                console.log("stopped Recording Words!");
+                //console.log("stopped Recording Words!");
                 remember.recording = !remember.recording;
                 return;
             }
             //Write down word
             if (remember.recording && falseTriggered && !startsWithPrefix) {
                 fs.appendFileSync(remember.filePath, message.content + ",");
-                console.log("Added Word:" + message.content);
+                //console.log("Added Word:" + message.content);
                 return;
             }
         }
@@ -252,7 +252,7 @@ module.exports = [
             } else {
                 data = await fetch("https://picsum.photos/200/300");
             }
-            console.log("sent picture: " + data.url)
+            //console.log("sent picture: " + data.url)
             const embed = {
                 "title": "Dein random Bild:",
                 "url": data.url,
@@ -862,6 +862,15 @@ module.exports = [
                 if (userData.unlockedAchievments.includes(i)) unlocked = true;
                 if (unlocked) preText = "```diff\n+ ";
                 fields4.push({ "name": achievments[i].name + " (" + achievments[i].points + " Punkte)", "value": preText + achievments[i].description + "\n```" });
+            }
+
+            for (let i = staatsoberhäupterListe.length + 10 + 24; i < staatsoberhäupterListe.length + 10 + 24 + 3; i++) {
+                let preText = "```diff\n- ";
+                if (achievments[i].progress(userData.staatsoberhäupter).unlocked) preText = "```fix\n"
+                let unlocked = false;
+                if (userData.unlockedAchievments.includes(i)) unlocked = true;
+                if (unlocked) preText = "```diff\n+ ";
+                fields3.push({ "name": achievments[i].name + " (" + achievments[i].points + " Punkte)", "value": preText + achievments[i].description + "\n```" });
             }
             //////////////////// End of filling
 
