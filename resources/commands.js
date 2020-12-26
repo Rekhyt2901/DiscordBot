@@ -753,8 +753,36 @@ module.exports = [
 
             let sender = await client.users.fetch(tradeOffer.von);
             const fs = require("fs");
-            let senderData = JSON.parse(fs.readFileSync("./resources/userData/" + message.guild.id + "/" + sender.id + ".json"));
-            let userData = JSON.parse(fs.readFileSync("./resources/userData/" + message.guild.id + "/" + message.author.id + ".json"));
+            let filePath = "./resources/userData/" + message.guild.id + "/";
+            let senderData = JSON.parse(fs.readFileSync(filePath + sender.id + ".json"));
+            let userData = JSON.parse(fs.readFileSync(filePath + message.author.id + ".json"));
+
+            //checking is offer and verlangt still exists
+            if (isNaN(tradeOffer.angebot)) {
+                if (!senderData.staatsoberhäupter.hasOwnProperty(tradeOffer.angebot.staat) ||
+                    !senderData.staatsoberhäupter[tradeOffer.angebot.staat][tradeOffer.angebot.index] > 0) {
+                    message.reply("Dein Tauschpartner hat das Staatsoberhaupt das er bietet nicht mehr! Ich lösche den Trade!");
+                    return;
+                }
+            } else {
+                if (senderData.levelPoints < tradeOffer.angebot) {
+                    message.reply("Dein Tauschpartner hat nicht mehr genug Punkte! Ich lösche den Trade!");
+                    return;
+                }
+            }
+            if (isNaN(tradeOffer.nachfrage)) {
+                if (!userData.staatsoberhäupter.hasOwnProperty(tradeOffer.nachfrage.staat) ||
+                    !userData.staatsoberhäupter[tradeOffer.nachfrage.staat][tradeOffer.nachfrage.index] > 0) {
+                    message.reply("Du hast das Staatsoberhaupt das verlangt wird nicht mehr! Ich lösche den Trade!");
+                    return;
+                }
+            } else {
+                if (userData.levelPoints < tradeOffer.nachfrage) {
+                    message.reply("Du hast nicht mehr genug Punkte! Ich lösche den Trade!");
+                    return;
+                }
+            }
+            //checking end
 
             if (isNaN(tradeOffer.angebot)) {
                 senderData.staatsoberhäupter[tradeOffer.angebot.staat][tradeOffer.angebot.index]--;
@@ -799,7 +827,6 @@ module.exports = [
                 senderData.levelPoints += tradeOffer.nachfrage;
                 userData.levelPoints -= tradeOffer.nachfrage;
             }
-            let filePath = "./resources/userData/" + message.guild.id + "/";
             fs.writeFileSync(filePath + userData.id + ".json", JSON.stringify(userData));
             fs.writeFileSync(filePath + senderData.id + ".json", JSON.stringify(senderData));
 

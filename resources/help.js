@@ -88,6 +88,10 @@ module.exports = (message, client, args) => {
                     {
                         "name": "Argumente:",
                         "value": "Optional: Name des Befehls über den man nähere Informationen möchte."
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "'/help' , '/help list'"
                     }
                 ]
             };
@@ -104,12 +108,16 @@ module.exports = (message, client, args) => {
                     {
                         "name": "Argumente:",
                         "value": "Keine."
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "'/staatsoberhaupt' , '/so'"
                     }
                 ]
             };
         } else if (arg.match(/^(superstaatsoberhaupt|sso|superso)$/i)) {
             embed = {
-                "title": "/staatsoberhaupt",
+                "title": "/superstaatsoberhaupt",
                 "description": "Dasselbe wie /staatsoberhaupt, bloß dass es dreifache Punkte gibt. Ist einmal am Tag verfügbar. Wird um 00:00 Uhr resetet.",
                 "color": 6744043,
                 "fields": [
@@ -120,6 +128,10 @@ module.exports = (message, client, args) => {
                     {
                         "name": "Argumente:",
                         "value": "Keine."
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "'/sso' , '/superso'"
                     }
                 ]
             };
@@ -136,6 +148,10 @@ module.exports = (message, client, args) => {
                     {
                         "name": "Argumente:",
                         "value": "Keine."
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "/skribbl"
                     }
                 ]
             };
@@ -152,6 +168,10 @@ module.exports = (message, client, args) => {
                     {
                         "name": "Argumente:",
                         "value": "Optional: 1. Zahl: Breite des Bildes\n2. Zahl: Höhe des bildes.\nWenn nur eine Zahl angegeben wird ist das Bild quadratisch."
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "'/randomimg' , '/ri' , '/img'"
                     }
                 ]
             };
@@ -168,6 +188,10 @@ module.exports = (message, client, args) => {
                     {
                         "name": "Argumente:",
                         "value": "Optional: @mention zeigt das Profil des gementionten Users an."
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "'/p' , '/p @alex'"
                     }
                 ]
             };
@@ -179,11 +203,15 @@ module.exports = (message, client, args) => {
                 "fields": [
                     {
                         "name": "Aliase:",
-                        "value": "/ranking, /r"
+                        "value": "/ranking, /r, /rank"
                     },
                     {
                         "name": "Argumente:",
                         "value": "Keine."
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "'/ranking' , '/r'"
                     }
                 ]
             };
@@ -200,6 +228,10 @@ module.exports = (message, client, args) => {
                     {
                         "name": "Argumente:",
                         "value": "Optional: Wenn ein Land angegeben wird, wird genau angezeigt welche Oberhäupter du in diesem Land hast.\n Optional: Wenn ein User @mentioned wird, wird seine Liste angezeigt."
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "'/list' , '/list @alex' , '/list @alex Thailand'"
                     }
                 ]
             };
@@ -216,6 +248,10 @@ module.exports = (message, client, args) => {
                     {
                         "name": "Argumente:",
                         "value": "1. Ein User den du mit @mentionst.\n2. Das was du bietest (z.B. Angela-Merkel oder 400 (für Punkte))\n3. Das was du möchtest (z.B. Kim-Jong-Un oder 350 (Punkte))"
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "'/trade @alex Angela-Merkel Barack-Obama' , '/trade @alex 200 Johannes-II.'"
                     }
                 ]
             };
@@ -232,6 +268,10 @@ module.exports = (message, client, args) => {
                     {
                         "name": "Argumente:",
                         "value": "Keine."
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "'/trades' , '/ts'"
                     }
                 ]
             };
@@ -248,6 +288,10 @@ module.exports = (message, client, args) => {
                     {
                         "name": "Argumente:",
                         "value": "Eine Zahö. Die nummer des Trades den du annehmen möchtest."
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "'/tradeaccept 1' , '/ta 2'"
                     }
                 ]
             };
@@ -264,6 +308,10 @@ module.exports = (message, client, args) => {
                     {
                         "name": "Argumente:",
                         "value": "Eine Zahl. Die Nummer des Trades den du ablehnen möchtest."
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "'/tradereject 1' , '/tr 2'"
                     }
                 ]
             };
@@ -280,6 +328,10 @@ module.exports = (message, client, args) => {
                     {
                         "name": "Argumente:",
                         "value": "Keine."
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "'/achievments' , '/a'"
                     }
                 ]
             };
@@ -296,6 +348,10 @@ module.exports = (message, client, args) => {
                     {
                         "name": "Argumente:",
                         "value": "Der Name des Achievments das du freischalten möchtest. Sieh dir die Namen bei /achievments an."
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "'/unlock vatikan' , '/u derselbe-3'"
                     }
                 ]
             };
@@ -312,22 +368,30 @@ module.exports = (message, client, args) => {
                     {
                         "name": "Argumente:",
                         "value": "Optional: @mention zeigt die Liste des gementionten Users an.\nEin Land. Das Land dessen Staatsoberhäupter du sehen möchtest."
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "'/listall thailand' , '/listall @alex japan'"
                     }
                 ]
             };
         } else if (arg.match(/^(search|s|such)$/i)) {
             embed = {
                 "title": "/search",
-                "description": "Zeigt alle Staatsoberhäupter des Angegeben Landes an. Die die man besitzt werden Grün markiert, der rest rot. Die Staatsoberhäupter sind numeriert. Wird kein Land angegeben, wird eine Liste der Länder angezeigt.",
+                "description": "Wenn ein Land angegeben wird: Zeigt wer wie viele Oberhäupter aus diesem Land hat.\nWenn ein Oberhaupt angegeben wird: Zeigt wer wieviele von diesem Oberhaupt besitzt.",
                 "color": 6744043,
                 "fields": [
                     {
                         "name": "Aliase:",
-                        "value": "/listall /la"
+                        "value": "/search /s /such"
                     },
                     {
                         "name": "Argumente:",
-                        "value": "Optional: @mention zeigt die Liste des gementionten Users an.\nEin Land. Das Land dessen Staatsoberhäupter du sehen möchtest."
+                        "value": "1. Land oder Staatsoberhaupt nach dem du suchen möchtest."
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "'/search wladimir lenin' , '/s ddr'"
                     }
                 ]
             };
