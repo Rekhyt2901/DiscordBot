@@ -214,7 +214,7 @@ module.exports = [
         name: "Nordkorea",
         description: "Sammle alle Staatsoberhäupter von Nord Korea",
         progress: (gezogene) => {
-            let land = "Nordkorea";
+            let land = "NordKorea";
             return sammleAlleVonLand(land, gezogene);
         },
         points: 400
