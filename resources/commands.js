@@ -400,52 +400,72 @@ module.exports = [
             let userData = JSON.parse(fs.readFileSync(filePath));
             let staatsoberhäupter = userData.staatsoberhäupter;
 
-            let string = "";
+            let stringArray = [];
             if (args.length === 0) {
                 for (staat in staatsoberhäupter) {
                     let anzahlOberhäupter = 0;
                     for (let i = 0; i < staatsoberhäupter[staat].length; i++) anzahlOberhäupter += staatsoberhäupter[staat][i];
                     let name = staat;
                     if (staat.split(" ").length > 1) name = staat.split(" ")[1];
-                    string += "**" + name + ": " + anzahlOberhäupter + "**\n```diff\n";
+                    let arrayPart = "";
+                    arrayPart += "**" + name + ": " + anzahlOberhäupter + "**\n```diff\n";
                     for (let i = 0; i < staatsoberhäupter[staat].length; i++) {
                         let landIndex;
-                        for (let j = 0; j < staatsoberhäupterListe.length; j++) if (staatsoberhäupterListe[j].list === staat) landIndex = j;
+                        for (let j = 0; j < staatsoberhäupterListe.length; j++) if (staatsoberhäupterListe[j].list.toLowerCase() === staat.toLowerCase()) landIndex = j;
                         if (staatsoberhäupter[staat][i] > 0) {
-                            string += "+ " + staatsoberhäupterListe[landIndex].names[i] + ": " + staatsoberhäupter[staat][i] + "\n";
+                            arrayPart += "+ " + staatsoberhäupterListe[landIndex].names[i] + ": " + staatsoberhäupter[staat][i] + "\n";
                         }
                     }
-                    string += "\n```\n";
+                    arrayPart += "\n```\n";
+                    stringArray.push(arrayPart);
                 }
-
+                //sending
                 if (message.mentions.users.first()) {
-                    string = "Die Staatsoberhäupter von " + message.mentions.users.first().tag + " nach Ländern:\n\n" + string
-                    if (string.length > 2000) {
-                        while (string.length > 2000) {
-                            message.author.send(string.substring(0, 1999));
-                            string = string.substring(1999);
+                    message.author.send("Die Staatsoberhäupter von " + message.mentions.users.first().tag + " nach Ländern:\n");
+                    let compactArray = [];
+                    let string = "";
+                    for (let i = 0; i < stringArray.length; i++) {
+                        let placeFound = false;
+                        for (let j = 0; j < compactArray.length; j++) {
+                            if (compactArray[j].length + stringArray[i].length < 2000) {
+                                compactArray[j] += stringArray[i]; //Problem wenn einzelnes Land über 2000 Zeichen geht...
+                                placeFound = true;
+                                break;
+                            }
                         }
-                        message.author.send(string);
-                        return;
-                    } else {
-                        message.author.send(string);
-                        message.reply("Ich hab dir die Liste der Staatsoberhäupter von " + message.mentions.users.first().tag + " zugeschickt!");
-                        return;
+                        if (!placeFound) {
+                            compactArray.push("");
+                            compactArray.push(stringArray[i]);
+                        }
                     }
-                }
-                string = "Deine Staatsoberhäupter nach Ländern:\n\n" + string;
-                if (string.length > 2000) {
-                    while (string.length > 2000) {
-                        message.author.send(string.substring(0, 1999));
-                        string = string.substring(1999);
+                    for (let i = 0; i < compactArray.length; i++) {
+                        message.author.send(compactArray[i]);
                     }
-                    message.author.send(string);
-                    return;
-                } else {
-                    message.author.send(string);
-                    message.reply("Ich hab dir die Liste deiner Staatsoberhäupter zugeschickt!");
+                    message.reply("Ich hab dir die Liste der Staatsoberhäupter von " + message.mentions.users.first().tag + " zugeschickt!");
                     return;
                 }
+                message.author.send("Deine Staatsoberhäupter nach Ländern:\n");
+                let compactArray = [""];
+                let string = "";
+                for (let i = 0; i < stringArray.length; i++) {
+                    let placeFound = false;
+                    for (let j = 0; j < compactArray.length; j++) {
+                        if (compactArray[j].length + stringArray[i].length < 2000) {
+                            compactArray[j] += stringArray[i]; //Problem wenn einzelnes Land über 2000 Zeichen geht...
+                            placeFound = true;
+                            break;
+                        }
+                    }
+                    if (!placeFound) {
+                        compactArray.push("");
+                        compactArray.push(stringArray[i]);
+                    }
+                }
+                for (let i = 0; i < compactArray.length; i++) {
+                    message.author.send(compactArray[i]);
+                }
+                message.reply("Ich hab dir die Liste deiner Staatsoberhäupter zugeschickt!");
+                return;
             } else {
                 let staat = args[0].toLowerCase();
                 let fields = [];
