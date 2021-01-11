@@ -613,7 +613,7 @@ module.exports = [
                 for (let i = 0; i < gezogene[land].length; i++) {
                     if (gezogene[land][i] > 0) counter++;
                 }
-                return { answer: "Du hast " + counter + "/" + Math.round(gezogene[land].length / 4) + " Staatsoberhäuptern aus " + land + "!", unlocked: Boolean(counter >= Math.round(gezogene[land].length / 2)) };
+                return { answer: "Du hast " + counter + "/" + Math.round(gezogene[land].length / 4) + " Staatsoberhäuptern aus " + land + "!", unlocked: Boolean(counter >= Math.round(gezogene[land].length / 4)) };
             } else {
                 let index = 0;
                 for (let i = 0; i < staatsoberhäupterListe.length; i++) {
@@ -638,7 +638,7 @@ module.exports = [
                 for (let i = 0; i < gezogene[land].length; i++) {
                     if (gezogene[land][i] > 0) counter++;
                 }
-                return { answer: "Du hast " + counter + "/" + Math.round(gezogene[land].length / 4) + " Staatsoberhäuptern aus " + land + "!", unlocked: Boolean(counter >= Math.round(gezogene[land].length / 2)) };
+                return { answer: "Du hast " + counter + "/" + Math.round(gezogene[land].length / 4) + " Staatsoberhäuptern aus " + land + "!", unlocked: Boolean(counter >= Math.round(gezogene[land].length / 4)) };
             } else {
                 let index = 0;
                 for (let i = 0; i < staatsoberhäupterListe.length; i++) {
