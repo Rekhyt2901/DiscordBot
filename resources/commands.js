@@ -1139,6 +1139,7 @@ module.exports = [
                 return;
             }
             let query = args.join(" ").toLowerCase();
+            query = query.replace(/-/g, " ");
             const staatsoberhäupterListe = require("./staatsoberhäupter.json").staatsoberhäupter;
             const fs = require("fs");
             let filePath = "./resources/userData/" + message.guild.id
