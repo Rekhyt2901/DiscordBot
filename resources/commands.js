@@ -613,13 +613,13 @@ module.exports = [
             //name1 Parsing and validating
             let name1;
             if (isNaN(args[0])) {
-                let name1 = args[0].replace(/-/g, " ");
+                let name1 = args[0].replace(/-/g, " ").toLowerCase();
                 let name1Country;
                 let name1Index;
                 let name1Exists = false;
                 for (let i = 0; i < staatsoberhäupterListe.length; i++) {
                     for (let j = 0; j < staatsoberhäupterListe[i].names.length; j++) {
-                        if (staatsoberhäupterListe[i].names[j].toLowerCase() === name1.toLowerCase()) {
+                        if (staatsoberhäupterListe[i].names[j].toLowerCase() === name1 ||staatsoberhäupterListe[i].names[j].toLowerCase().substring(0, staatsoberhäupterListe[i].names[j].length - 1) === name1)  {
                             name1Exists = true;
                             name1Country = staatsoberhäupterListe[i].list;
                             name1Index = j;
@@ -651,13 +651,13 @@ module.exports = [
             //name2 Parsing and validating
             let name2Object;
             if (isNaN(args[1])) {
-                let name2 = args[1].replace(/-/g, " ");
+                let name2 = args[1].replace(/-/g, " ").toLowerCase();
                 let name2Country;
                 let name2Index;
                 let name2Exists = false;
                 for (let i = 0; i < staatsoberhäupterListe.length; i++) {
                     for (let j = 0; j < staatsoberhäupterListe[i].names.length; j++) {
-                        if (staatsoberhäupterListe[i].names[j].toLowerCase() === name2.toLowerCase()) {
+                        if (staatsoberhäupterListe[i].names[j].toLowerCase() === name2 || staatsoberhäupterListe[i].names[j].toLowerCase().substring(0, staatsoberhäupterListe[i].names[j].length - 1) === name2) {
                             name2Exists = true;
                             name2Country = staatsoberhäupterListe[i].list;
                             name2Index = j;
@@ -1177,7 +1177,7 @@ module.exports = [
             let found = false;
             for (let i = 0; i < staatsoberhäupterListe.length; i++) {
                 for (let j = 0; j < staatsoberhäupterListe[i].names.length; j++) {
-                    if (query === staatsoberhäupterListe[i].names[j].toLowerCase()) {
+                    if (query === staatsoberhäupterListe[i].names[j].toLowerCase() || query === staatsoberhäupterListe[i].names[j].toLowerCase().substring(0, staatsoberhäupterListe[i].names[j].length - 1)) {
                         land = staatsoberhäupterListe[i].list;
                         index = j;
                         found = true;
