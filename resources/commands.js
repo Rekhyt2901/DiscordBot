@@ -155,6 +155,11 @@ module.exports = [
         aliases: ["sso", "superso"],
         alwaysTrigger: false,
         command: (message) => {
+            let openTrades = getUserData(message, "openTrades");
+            if(openTrades.length > 0 ) {
+                message.reply("Du hast offene Tauschanfragen! Nimm sie an oder lehn sie ab mit /ta und /tr bevor du ziehen darfst!");
+                return;
+            }
             let staatsoberhäupter = require("./staatsoberhäupter.json").staatsoberhäupter;
             let lastUsedSuper = getUserData(message, "lastUsedSuperStaatsoberhaupt");
             let dayNow = Math.floor((Date.now() + 3600000) / 86400000);
