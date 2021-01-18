@@ -155,16 +155,16 @@ module.exports = [
         aliases: ["sso", "superso"],
         alwaysTrigger: false,
         command: (message) => {
-            let openTrades = getUserData(message, "openTrades");
-            if(openTrades.length > 0 ) {
-                message.reply("Du hast offene Tauschanfragen! Benutze /trades um sie anzusehen bevor du ziehen darfst!");
-                return;
-            }
             let staatsoberhäupter = require("./staatsoberhäupter.json").staatsoberhäupter;
             let lastUsedSuper = getUserData(message, "lastUsedSuperStaatsoberhaupt");
             let dayNow = Math.floor((Date.now() + 3600000) / 86400000);
             if (dayNow - lastUsedSuper <= 0) {
                 message.reply("Du hast heute schon Super Staatsoberhaupt benutzt. Komm morgen wieder!");
+                return;
+            }
+            let openTrades = getUserData(message, "openTrades");
+            if (openTrades.length > 0) {
+                message.reply("Du hast offene Tauschanfragen! Benutze /trades um sie anzusehen bevor du ziehen darfst!");
                 return;
             }
 
@@ -624,7 +624,7 @@ module.exports = [
                 let name1Exists = false;
                 for (let i = 0; i < staatsoberhäupterListe.length; i++) {
                     for (let j = 0; j < staatsoberhäupterListe[i].names.length; j++) {
-                        if (staatsoberhäupterListe[i].names[j].toLowerCase() === name1 ||staatsoberhäupterListe[i].names[j].toLowerCase().substring(0, staatsoberhäupterListe[i].names[j].length - 1) === name1)  {
+                        if (staatsoberhäupterListe[i].names[j].toLowerCase() === name1 || staatsoberhäupterListe[i].names[j].toLowerCase().substring(0, staatsoberhäupterListe[i].names[j].length - 1) === name1) {
                             name1Exists = true;
                             name1Country = staatsoberhäupterListe[i].list;
                             name1Index = j;
