@@ -157,7 +157,7 @@ module.exports = [
         command: (message) => {
             let openTrades = getUserData(message, "openTrades");
             if(openTrades.length > 0 ) {
-                message.reply("Du hast offene Tauschanfragen! Nimm sie an oder lehn sie ab mit /ta und /tr bevor du ziehen darfst!");
+                message.reply("Du hast offene Tauschanfragen! Benutze /trades um sie anzusehen bevor du ziehen darfst!");
                 return;
             }
             let staatsoberhäupter = require("./staatsoberhäupter.json").staatsoberhäupter;
