@@ -608,11 +608,15 @@ module.exports = [
             let userData2 = JSON.parse(fs.readFileSync(filePath + secondUser.id + ".json"));
             let staatsoberhäupterListe = require("./staatsoberhäupter.json").staatsoberhäupter;
 
+            let amountOfAnfragen = 0;
             for (let i = 0; i < userData2.openTrades.length; i++) {
                 if (userData2.openTrades[i].von === message.author.id) {
-                    message.reply("Der User '" + userData2.nickname + "' hat noch eine ungeöffnete Tauschanfrage von dir!");
-                    return;
+                    amountOfAnfragen++;
                 }
+            }
+            if(amountOfAnfragen >= 3) {
+                message.reply("Du kannst jedem User maximal 3 Anfragen auf einmal schicken! '" + userData2.nickname + "' hat noch ungeöffnete Tauschanfragen von dir!");
+                return;
             }
 
             //name1 Parsing and validating
