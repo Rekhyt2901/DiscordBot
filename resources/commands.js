@@ -614,7 +614,7 @@ module.exports = [
                     amountOfAnfragen++;
                 }
             }
-            if(amountOfAnfragen >= 3) {
+            if (amountOfAnfragen >= 3) {
                 message.reply("Du kannst jedem User maximal 3 Anfragen auf einmal schicken! '" + userData2.nickname + "' hat noch ungeöffnete Tauschanfragen von dir!");
                 return;
             }
@@ -865,7 +865,7 @@ module.exports = [
     },
     {
         name: "tradereject",
-        aliases: ["tr", "tradedecline"],
+        aliases: ["tr", "tradedecline", "td"],
         alwaysTrigger: false,
         command: async (message, client, args) => {
             if (args.length === 0) {
@@ -1217,6 +1217,103 @@ module.exports = [
                     message.reply("Niemand hat das Staatsoberhaupt '" + query + "'!");
                     return;
                 }
+            }
+        }
+    },
+    {
+        name: "senttrades",
+        aliases: ["st"],
+        alwaysTrigger: false,
+        command: (message) => {
+            let fields = [];
+            const fs = require("fs");
+            let ids = fs.readdirSync("./resources/userData/" + message.guild.id);
+
+            for (let i = 0; i < ids.length; i++) {
+
+                let filePath = "./resources/userData/" + message.guild.id + "/" + ids[i];
+                let userData = JSON.parse(fs.readFileSync(filePath));
+                if(!userData.hasOwnProperty("openTrades")) {
+                    continue;
+                }
+                let openTrades = userData.openTrades;
+
+                let tradeCount = 1;
+                for (let j = 0; j < openTrades.length; j++) {
+                    if (openTrades[j].von == message.author.id) {
+                        let value = "Bietet an: ";
+
+                        if (isNaN(openTrades[j].angebot)) {
+                            let angebotsStaat = openTrades[j].angebot.staat.split(" ").length > 1 ? openTrades[j].angebot.staat.split(" ")[1] : openTrades[j].angebot.staat;
+                            value += angebotsStaat + " - " + openTrades[j].angebot.name;
+                        } else {
+                            value += openTrades[j].angebot + " Punkte";
+                        }
+
+                        value += "\nMöchte: "
+                        if (isNaN(openTrades[j].nachfrage)) {
+                            let nachfrageStaat = openTrades[j].nachfrage.staat.split(" ").length > 1 ? openTrades[j].nachfrage.staat.split(" ")[1] : openTrades[j].nachfrage.staat;
+                            value += nachfrageStaat + " - " + openTrades[j].nachfrage.name;
+                        } else {
+                            value += openTrades[j].nachfrage + " Punkte";
+                        }
+
+                        let name = userData.nickname;
+                        fields.push({ "name": tradeCount + ". An " + name + ":", "value": value });
+                        tradeCount++;
+                    }
+                }
+            }
+
+            if (fields.length > 0) {
+                const embed = {
+                    "title": "Du hast diese Tauschangebote verschickt:",
+                    "description": "Wenn du möchtest kannst du alle angebote mit /clearSentTrades oder /clearSent löschen.",
+                    "color": 6744043,
+                    "fields": fields
+                };
+                message.reply({ embed: embed });
+                return;
+            } else {
+                message.reply("Niemand hat offene Tauschanfragen von dir!");
+                return;
+            }
+        }
+    },
+    {
+        name: "clearsenttrades",
+        aliases: ["cst", "clearSent", "deleteSentTrades", "dst"],
+        alwaysTrigger: false,
+        command: (message) => {
+            const fs = require("fs");
+            let ids = fs.readdirSync("./resources/userData/" + message.guild.id);
+
+            let atleastOneDeletedTrade = false;
+
+            for (let i = 0; i < ids.length; i++) {
+
+                let filePath = "./resources/userData/" + message.guild.id + "/" + ids[i];
+                let userData = JSON.parse(fs.readFileSync(filePath));
+                if(!userData.hasOwnProperty("openTrades")) {
+                    continue;
+                }
+                let openTrades = userData.openTrades;
+
+                let newOpenTrades;
+                for (let j = 0; j < openTrades.length; j++) {
+                    if (openTrades[j].von != message.author.id) {
+                        newOpenTrades.push(openTrades[j]);
+                    } else {
+                        atleastOneDeletedTrade = true;
+                    }
+                }
+                userData.openTrades = newOpenTrades;
+                fs.writeFileSync(filePath, JSON.stringify(userData));
+            }
+            if(atleastOneDeletedTrade) {
+                message.reply("Alle deine versendeten Tauschanfragen wurden zurückgezogen!");
+            } else {
+                message.reply("Niemand hat offene Tauschanfragen von dir!");
             }
         }
     }
