@@ -68,6 +68,18 @@ module.exports = (message, client, args) => {
                 {
                     "name": "/search",
                     "value": "Zeigt alle user an die ein angegebenes Land oder Staatsoberhaupt besitzen."
+                },
+                {
+                    "name": "/sentTrades",
+                    "value": "Zeigt alle offenen Tauschanfragen die du verschickt hast."
+                },
+                {
+                    "name": "/clearAllTrades",
+                    "value": "Löscht alle offenen Tauschanfragen die du verschickt hast."
+                },
+                {
+                    "name": "/clearTrade",
+                    "value": "Löscht das Tauschangebot mit der angegebenen Nummer. Nummern bei /sentTrades ."
                 }
             ]
         };
@@ -392,6 +404,66 @@ module.exports = (message, client, args) => {
                     {
                         "name": "Beispiele:",
                         "value": "'/search wladimir lenin' , '/s ddr'"
+                    }
+                ]
+            };
+        } else if (arg.match(/^(senttrades|st)$/i)) {
+            embed = {
+                "title": "/sentTrades",
+                "description": "Zeigt alle Tauschangebote die du verschickt hast, die bisher weder angenommen noch abgelehnt wurden.",
+                "color": 6744043,
+                "fields": [
+                    {
+                        "name": "Aliase:",
+                        "value": "/senttrades /st"
+                    },
+                    {
+                        "name": "Argumente:",
+                        "value": "Keine."
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "'/sentTrades' , '/st"
+                    }
+                ]
+            };
+        } else if (arg.match(/^(clearalltrades|cat|clearall|deletealltrades|dat|deleteall)$/i)) {
+            embed = {
+                "title": "/clearAllTrades",
+                "description": "Zieht alle Tauschanfragen zurück die du verschickt hast, die bisher weder angenommen noch abgelehnt wurden.",
+                "color": 6744043,
+                "fields": [
+                    {
+                        "name": "Aliase:",
+                        "value": "/clearAllTrades /cat /clearAll /deleteAllTrades /dat /deleteAll"
+                    },
+                    {
+                        "name": "Argumente:",
+                        "value": "Keine."
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "'/clearAllTrades', '/cat' , '/deleteAll'"
+                    }
+                ]
+            };
+        } else if (arg.match(/^(cleartrade|ct|deletetrade|dt)$/i)) {
+            embed = {
+                "title": "/clearTrade",
+                "description": "Löscht deine verschickte Tauschanfrage mit der angegebenen Nummer. Die Nummern deiner versendeten Tauschanfragen siehst du bei /sentTrades .",
+                "color": 6744043,
+                "fields": [
+                    {
+                        "name": "Aliase:",
+                        "value": "/clearTrade /ct /deleteTrade /dt"
+                    },
+                    {
+                        "name": "Argumente:",
+                        "value": "1. Nummer der verschickten Tauschanfrage die du ablehnen möchtest."
+                    },
+                    {
+                        "name": "Beispiele:",
+                        "value": "'/clearTrade 1' , '/ct 3' , '/deleteTrade 2'"
                     }
                 ]
             };

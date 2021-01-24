@@ -1,3 +1,5 @@
+const { open } = require("inspector");
+
 /*
 command structure:
 
@@ -1229,16 +1231,16 @@ module.exports = [
             const fs = require("fs");
             let ids = fs.readdirSync("./resources/userData/" + message.guild.id);
 
+            let tradeCount = 1;
             for (let i = 0; i < ids.length; i++) {
 
                 let filePath = "./resources/userData/" + message.guild.id + "/" + ids[i];
                 let userData = JSON.parse(fs.readFileSync(filePath));
-                if(!userData.hasOwnProperty("openTrades")) {
+                if (!userData.hasOwnProperty("openTrades")) {
                     continue;
                 }
                 let openTrades = userData.openTrades;
 
-                let tradeCount = 1;
                 for (let j = 0; j < openTrades.length; j++) {
                     if (openTrades[j].von == message.author.id) {
                         let value = "Bietet an: ";
@@ -1281,8 +1283,8 @@ module.exports = [
         }
     },
     {
-        name: "clearsenttrades",
-        aliases: ["cst", "clearSent", "deleteSentTrades", "dst"],
+        name: "clearalltrades",
+        aliases: ["cat", "clearall", "deletealltrades", "dat", "deleteall"],
         alwaysTrigger: false,
         command: (message) => {
             const fs = require("fs");
@@ -1294,7 +1296,7 @@ module.exports = [
 
                 let filePath = "./resources/userData/" + message.guild.id + "/" + ids[i];
                 let userData = JSON.parse(fs.readFileSync(filePath));
-                if(!userData.hasOwnProperty("openTrades")) {
+                if (!userData.hasOwnProperty("openTrades")) {
                     continue;
                 }
                 let openTrades = userData.openTrades;
@@ -1310,11 +1312,62 @@ module.exports = [
                 userData.openTrades = newOpenTrades;
                 fs.writeFileSync(filePath, JSON.stringify(userData));
             }
-            if(atleastOneDeletedTrade) {
+            if (atleastOneDeletedTrade) {
                 message.reply("Alle deine versendeten Tauschanfragen wurden zurückgezogen!");
             } else {
                 message.reply("Niemand hat offene Tauschanfragen von dir!");
             }
+        }
+    },
+    {
+        name: "cleartrade",
+        aliases: ["ct", "deletetrade", "dt"],
+        alwaysTrigger: false,
+        command: (message, client, args) => {
+            if (args.length === 0) {
+                message.reply("Du hast keine Zahl angegeben!");
+                return;
+            }
+            if (isNaN(args[0])) {
+                message.reply("Bitte gib die Nummer des trades an, den du zuruückziehen möchtest!");
+                return;
+            }
+            if(args[0] < 1) {
+                message.reply("Bitte gib eine Zahl an die größer gleich 1 ist!");
+                return;
+            }
+
+            const fs = require("fs");
+            let ids = fs.readdirSync("./resources/userData/" + message.guild.id);
+
+            let index = Math.floor(args[0]) - 1;
+            let tradeCounter = 0;
+            for (let i = 0; i < ids.length; i++) {
+                let filePath = "./resources/userData/" + message.guild.id + "/" + ids[i];
+                let userData = JSON.parse(fs.readFileSync(filePath));
+                if (!userData.hasOwnProperty("openTrades")) {
+                    continue;
+                }
+                let openTrades = userData.openTrades;
+
+                for (let j = 0; j < openTrades.length; j++) {
+                    if (openTrades[j].von == message.author.id) {
+                        atleastOneDeletedTrade = true;
+                        
+                        if(tradeCounter === index) {
+                            openTrades.splice(j, 1);
+                            userData.openTrades = openTrades;
+                            fs.writeFileSync(filePath, JSON.stringify(userData));
+                            message.reply("Die Tauschanfrage wurde zurückgezogen!");
+                            return;
+                        } else {
+                            tradeCounter++;
+                        }
+                    }
+                }
+            }
+            message.reply("Du hast keine versendete Tauschanfrage mit der Nummer " + (index+1) + "! Benutze /sentTrades um deine verschickten Tauschanfragen zu sehen!");
+            return;
         }
     }
 ];
