@@ -368,7 +368,9 @@ module.exports = [
             for (file of files) {
                 let readFile = JSON.parse(fs.readFileSync(filePath + "/" + file));
                 let nickname = readFile["nickname"];
-                fields.push({ "name": nickname, "value": readFile["levelPoints"] });
+                if(readFile["levelPoints"] > 0) {
+                    fields.push({ "name": nickname, "value": readFile["levelPoints"] });
+                }
             }
 
             fields.sort((a, b) => b["value"] - a["value"]);
