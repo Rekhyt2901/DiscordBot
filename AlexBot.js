@@ -87,7 +87,7 @@ client.on("message", async (message) => {
         } catch(err) {
             console.log("Fehler!!!", err);
             let alex = await client.users.fetch("399177273032572948");
-            alex.send("Ich habe diesen Fehler gecatched:\n\n" + JSON.stringify(err, null, 4));
+            alex.send("Ich habe diesen Fehler gecatched:\n\n" + JSON.stringify(err, Object.getOwnPropertyNames(err), 4));
         }
     }
     if (message.content.startsWith(prefix)) {
