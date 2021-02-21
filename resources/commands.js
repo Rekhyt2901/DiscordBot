@@ -615,6 +615,7 @@ module.exports = [
             let staatsoberhäupterListe = require("./staatsoberhäupter.json").staatsoberhäupter;
 
             let amountOfAnfragen = 0;
+            if(!userData2.hasOwnProperty("openTrades")) userData2.openTrades = []
             for (let i = 0; i < userData2.openTrades.length; i++) {
                 if (userData2.openTrades[i].von === message.author.id) {
                     amountOfAnfragen++;
@@ -1305,7 +1306,7 @@ module.exports = [
                 }
                 let openTrades = userData.openTrades;
 
-                let newOpenTrades;
+                let newOpenTrades = [];
                 for (let j = 0; j < openTrades.length; j++) {
                     if (openTrades[j].von != message.author.id) {
                         newOpenTrades.push(openTrades[j]);
